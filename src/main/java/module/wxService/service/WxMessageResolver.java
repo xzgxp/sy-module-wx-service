@@ -7,7 +7,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import module.wxService.model.WxMessage;
-import module.wxService.model.WxMessagePushEvent;
 import module.wxService.model.WxMessageType;
 
 import org.apache.commons.logging.Log;

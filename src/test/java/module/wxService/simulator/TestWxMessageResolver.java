@@ -28,6 +28,8 @@ public class TestWxMessageResolver {
 			WxMessage xm = WxMessageResolver.getInstance().resolveMessage(
 					new FileInputStream(f));
 			System.out.println(new ObjectMapper().writeValueAsString(xm));
+			System.out.println(xm.toString());
+			System.out.println("===========================================================");
 		}
 	}
 
