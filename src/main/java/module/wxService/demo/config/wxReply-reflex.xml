@@ -1,0 +1,19 @@
+<wx beanload="reflex" >
+	<reply>
+		
+		<default accept="support.wx.demo.accept.Default"></default>
+		
+		<pic accept="support.wx.demo.accept.Pic"  ></pic>
+		
+		<link accept="support.wx.demo.accept.Link"  ></link>
+		
+		<geo accept="support.wx.demo.accept.Geo"  ></geo>
+		
+		<!-- 事件消息 -->
+		<event key="subscribe~"  accept="support.wx.demo.accept.Subscribe"  ></event>
+		
+		<!-- 文本消息 -->
+		<text match=".*" accept="support.wx.demo.accept.AllText"  ></text>
+		
+	</reply>
+</wx>
