@@ -36,9 +36,11 @@ dependencies {
     compile 'commons-httpclient:commons-httpclient:3.1'
 	
 	compile 'dom4j:dom4j:1.6.1'
+	compile 'jaxen:jaxen:1.1.6'
+	compile 'jdom:jdom:1.1'
+	compile 'org.springframework:spring-beans:3.2.0.RELEASE'
 	 
 	testCompile 'junit:junit:4.2'
-	testCompile 'org.springframework:spring-beans:3.2.0.RELEASE'
 	
 }
 
@@ -112,6 +114,8 @@ task createSyXml << {
 			}
 		}
 	}
+	configFile.getParentFile().mkdirs();
+	configFile.createNewFile();
 	configFile.write(writer.toString())
 }
 jar.dependsOn createSyXml
