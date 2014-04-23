@@ -7,6 +7,8 @@
 		</event>
 		<event key="unsubscribe~"  accept="module.wxService.UnSubscribe"  ></event>
 		
+		<event key="LOCATION~" accept="module.wxService.Local" ></event>
+		
 		
 	</reply>
 	
