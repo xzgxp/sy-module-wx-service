@@ -81,11 +81,11 @@ public class WxApiSupport {
 	) throws Exception {
 		// 判断请求行为
 		String echostr = request.getParameter("echostr");
+		String signature = request.getParameter("signature");
+		String timestamp = request.getParameter("timestamp");
+		String nonce = request.getParameter("nonce");
 		if (null != echostr) {
 			// API 接入验证
-			String signature = request.getParameter("signature");
-			String timestamp = request.getParameter("timestamp");
-			String nonce = request.getParameter("nonce");
 			if(WeiXin.access(wx_token, signature, timestamp, nonce)) {
 				log.info("微信API接入验证成功。");
 				PrintWriter out = response.getWriter();
@@ -114,6 +114,10 @@ public class WxApiSupport {
 		    	return;
 		    }
 		} else {
+			if(!WeiXin.access(wx_token, signature, timestamp, nonce)) {
+				log.warn("微信消息来源验证失败，拒绝受理。");
+		    	return;
+			}
 			// 流转储
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			int b = -1;

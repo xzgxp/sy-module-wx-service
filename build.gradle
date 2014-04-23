@@ -7,7 +7,7 @@ sourceCompatibility = '1.6'
 targetCompatibility = '1.6'
 groupId = "sy-module"
 artifactId = "module-wx-service"
-version = '1.0'
+version = '1.0a1'
 developerName = "wxService"
 
 
@@ -32,7 +32,7 @@ repositories {
 // 依赖
 dependencies {
 	
-    compile 'sy-module:module-core:1.3'
+    compile 'sy-module:module-core:1.3a2'
     compile 'commons-httpclient:commons-httpclient:3.1'
 	
 	compile 'dom4j:dom4j:1.6.1'

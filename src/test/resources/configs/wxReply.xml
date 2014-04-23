@@ -9,6 +9,10 @@
 		
 		<event key="LOCATION~" accept="module.wxService.Local" ></event>
 		
+
+		<text match=".*" ><answer type="text" ><![CDATA[openid : ${wx_openid }, 
+sign : ${wx_openid_sign }, 
+basepath : ${url_basepath }]]></answer></text>
 		
 	</reply>
 	

@@ -11,8 +11,8 @@ import sy.module.core.config.PropertiesLoader;
 import sy.module.core.util.encry.AESUtils;
 import sy.module.core.util.encry.Base64Util;
 
-public class UrlCodeKit {
-	private static final Log log = LogFactory.getLog(UrlCodeKit.class);
+public class WxOpenIdKit {
+	private static final Log log = LogFactory.getLog(WxOpenIdKit.class);
 	private static final String dateFormat = "yyyyMMddHHmmssSSS";
 	
 	/**
