@@ -4,13 +4,66 @@ targetNamespace="https://raw.githubusercontent.com/wonder-sy0618/module-wx-servi
 xmlns="https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/"
 elementFormDefault="qualified">
 
-	<xs:element name="note">
+
+
+	<!-- accept class default atrribute -->
+	<xs:attribute name="accept" type="xs:string" >
+	</xs:attribute>		<!-- / accept class default atrribute -->
+	
+	
+	
+	<!-- accept event key default attribute -->
+	<xs:attribute name="key">
+		<xs:simpleType>
+		  <xs:restriction base="xs:string">
+		    <xs:pattern value="(subscribe|unsubscribe|LOCATION|SCAN|CLICK|VIEW)~.*"/>
+		  </xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>		<!-- / accept event key default attribute -->
+	
+	
+
+	<!-- base accept type -->
+	<xs:complexType name="acceptTypeBase">
+		<xs:attribute ref="accept" />
+	</xs:complexType>	<!-- / base type -->
+	
+	
+	
+	
+	<!-- event accept type -->
+	<xs:complexType name="acceptTypeEvent" >
+		<xs:complexContent>
+		    <xs:extension base="acceptTypeBase">
+		    	<!-- attribute : key -->
+		    	<xs:attribute ref="key" />
+		    </xs:extension>
+	    </xs:complexContent>
+	</xs:complexType>	<!-- / event accept type -->
+	
+	
+	
+
+	<xs:element name="wx">
 	    <xs:complexType>
 	      <xs:sequence>
-			<xs:element name="to" type="xs:string"/>
-			<xs:element name="from" type="xs:string"/>
-			<xs:element name="heading" type="xs:string"/>
-			<xs:element name="body" type="xs:string"/>
+	      	
+			<xs:element name="reply">
+			    <xs:complexType>
+			      <xs:sequence>
+			      
+					<xs:element name="event" type="acceptTypeEvent" />
+					<xs:element name="text" type="acceptTypeBase" />
+					<xs:element name="pic" type="acceptTypeBase" />
+					<xs:element name="link" type="acceptTypeBase" />
+					<xs:element name="geo" type="acceptTypeBase" />
+					<xs:element name="video" type="acceptTypeBase" />
+					<xs:element name="voice" type="acceptTypeBase" />
+					
+			      </xs:sequence>
+			    </xs:complexType>
+			</xs:element>
+			
 	      </xs:sequence>
 	    </xs:complexType>
 	</xs:element>
