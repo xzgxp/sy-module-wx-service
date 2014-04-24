@@ -53,6 +53,28 @@ public class Beanload implements BeanFactoryAware {
 			return null;
 		}
 	}
+	
+	/**
+	 * 加载一个Bean
+	 * @param name
+	 * @return
+	 */
+	public Object loadBean(String name) {
+		try {
+	        if (this == Beanload.reflex) {
+				Class<?> groovyClass = Class.forName(name); 
+		        Object obj = groovyClass.newInstance();  
+        		log.debug("通过Java反射获取 Bean["+name+"]：" + obj);
+		        return obj;
+	        } else {
+	        	Object obj = getBean(name);
+        		log.debug("通过Spring容器获取 Bean["+name+"]：" + obj);
+	        	return obj;
+	        }
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	/**
 	 * 加载消息受理器
@@ -61,17 +83,7 @@ public class Beanload implements BeanFactoryAware {
 	 */
 	public WxMsgAccept loadWxMsgAccept(String accept) {
 		try {
-	        if (this == Beanload.reflex) {
-				@SuppressWarnings("unchecked")
-				Class<WxMsgAccept> groovyClass = (Class<WxMsgAccept>) Class.forName(accept); 
-		        WxMsgAccept reflectInter = groovyClass.newInstance();  
-        		log.debug("通过Java反射获取 WxMsgAccept["+accept+"]：" + reflectInter);
-		        return reflectInter;
-	        } else {
-	        	WxMsgAccept wma = getBean(accept);
-        		log.debug("通过Spring容器获取 WxMsgAccept["+accept+"]：" + wma);
-	        	return wma;
-	        }
+	        return (WxMsgAccept) loadBean(accept);
 		} catch (Exception e) {
 			return null;
 		}

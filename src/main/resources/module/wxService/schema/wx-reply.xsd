@@ -196,6 +196,14 @@ elementFormDefault="qualified" attributeFormDefault="unqualified" >
 					</xsd:element>
 					
 			      </xsd:sequence>
+			      <xsd:attribute name="event" type="xsd:string" >
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+						事件监听器<br/>
+						必须指向一个实现了module.wxService.event.WxAcceptEvent的类
+						]]></xsd:documentation>
+					</xsd:annotation>
+			      </xsd:attribute>
 			    </xsd:complexType>
 			</xsd:element>
 			

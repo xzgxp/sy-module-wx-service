@@ -16,6 +16,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
+import module.wxService.event.WxAcceptEventManager;
 import module.wxService.parser.WxMsgKit;
 import module.wxService.vo.recv.WxRecvMsg;
 import module.wxService.vo.send.WxSendMsg;
@@ -45,6 +46,7 @@ public final class WeiXin {
 	public static void send(WxSendMsg msg,OutputStream out) throws IOException, DocumentException {
 		Document doc = WxMsgKit.parse(msg);
 		Document dom = DocumentHelper.parseText(doc.asXML());
+		WxAcceptEventManager.getWxAcceptEventInstance().onConvertSendMsgToXmlElement(dom.getRootElement());
 		//
 		String xmlContent = "";
 		StringWriter writer = new StringWriter();
@@ -61,6 +63,7 @@ public final class WeiXin {
 		//
 		if(null != doc) {
 			out.write(doc.asXML().toString().getBytes("UTF-8"));
+			WxAcceptEventManager.getWxAcceptEventInstance().onComplateSendMsg(doc.asXML().toString());
 		} else {
 			log.warn("发送消息时,解析出dom为空 msg :"+msg);
 		}

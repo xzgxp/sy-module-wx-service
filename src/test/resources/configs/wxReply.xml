@@ -6,7 +6,7 @@
 		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/ 
 		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/master/src/main/resources/module/wxService/schema/wx-reply.xsd">
 		
-	<reply>
+	<reply event="module.wxService.TestEvent" >
 		
 		<!-- 事件消息 -->
 		<event key="subscribe~" >

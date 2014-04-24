@@ -15,6 +15,7 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
+import module.wxService.event.WxAcceptEventManager;
 import module.wxService.vo.recv.WxRecvMsg;
 import module.wxService.vo.send.WxSendMsg;
 
@@ -56,6 +57,7 @@ public final class WxMsgKit {
 		}
 		log.debug("recv message >> \n" + xmlContent);
 		//
+		WxAcceptEventManager.getWxAcceptEventInstance().onResolveXmlElement(dom.getRootElement());
 		Element msgType = dom.getRootElement().element("MsgType");
 		if(null != msgType) {
 			String txt = msgType.getText().toLowerCase();

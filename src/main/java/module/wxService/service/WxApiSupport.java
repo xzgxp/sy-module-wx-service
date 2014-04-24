@@ -11,6 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import module.wxService.WeiXin;
+import module.wxService.event.WxAcceptEvent;
+import module.wxService.event.WxAcceptEventManager;
 import module.wxService.vo.recv.WxRecvEventMsg;
 import module.wxService.vo.recv.WxRecvGeoMsg;
 import module.wxService.vo.recv.WxRecvLinkMsg;
@@ -46,6 +48,11 @@ public class WxApiSupport {
 	public WxApiSupport(String wx_token, String configPath) {
 		this.wx_token = wx_token;
 		wxControlConfigLoader = new WxControlConfigLoader(configPath);
+		// 事件配置
+		WxAcceptEvent eventConf = wxControlConfigLoader.loadAcceptEvent();
+		if (eventConf != null) {
+			WxAcceptEventManager.addWxAcceptEvent(eventConf);
+		}
 	}
 	
 	/**
@@ -65,6 +72,11 @@ public class WxApiSupport {
 			wxMenuLoader = new WxMenuLoader(wxMenuJsonPath);
 			this.wx_appid = wx_appid;
 			this.wx_secret = wx_secret;
+		}
+		// 事件配置
+		WxAcceptEvent eventConf = wxControlConfigLoader.loadAcceptEvent();
+		if (eventConf != null) {
+			WxAcceptEventManager.addWxAcceptEvent(eventConf);
 		}
 	}
 	
@@ -126,8 +138,11 @@ public class WxApiSupport {
 			}
 			// log.debug("recv input stream：\n" + new String(baos.toByteArray(), "UTF-8") + "\n");
 			ByteArrayInputStream in = new ByteArrayInputStream(baos.toByteArray());
+			// event
+			WxAcceptEventManager.getWxAcceptEventInstance().onRevcMsg(new String(baos.toByteArray(), "UTF-8"), request, response);
 			// 接收消息
 			WxRecvMsg msg = WeiXin.recv(in);
+			WxAcceptEventManager.getWxAcceptEventInstance().onRevoleRevcObject(msg);
 			WxSendMsg sendMsg = WeiXin.builderSendByRecv(msg);
 			// 受理文件
 			AcceptNode accept = null;
@@ -164,17 +179,22 @@ public class WxApiSupport {
 		    		log.warn("消息处理器加载异常，请检查配置文件路径，以及消息配置是否正确。");
 		    		return;
 		    	}
+		    	// event
+		    	WxAcceptEventManager.getWxAcceptEventInstance().findAcceptClass(accept, accept.getSubElement());
 		        if (accept.getReflectInter() == null) {
 		        	log.warn("消息处理器加载异常，请检查Bean或Classpath是否存在。");
 		        	return;
 		        }
 		        sendMsg = accept.getReflectInter().accept(msg, sendMsg, request, accept.getSubElement());
+		        // event
+		    	WxAcceptEventManager.getWxAcceptEventInstance().onComplateAccept(msg, sendMsg, accept);
 		        if (sendMsg != null) {
 			        // 发送回微信
 			        WeiXin.send(sendMsg, response.getOutputStream());
 		        }
 		    } catch (Exception e) {
 		    	log.warn("消息处理器类["+accept+"]加载异常["+e.getMessage()+"]，忽略消息处理。", e);
+		    	WxAcceptEventManager.getWxAcceptEventInstance().exception(e);
 		    }
 		}
 		return;

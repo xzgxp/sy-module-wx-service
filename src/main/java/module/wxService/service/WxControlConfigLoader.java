@@ -3,6 +3,8 @@ package module.wxService.service;
 import java.io.InputStream;
 import java.util.Iterator;
 
+import module.wxService.event.WxAcceptEvent;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
@@ -68,6 +70,28 @@ public class WxControlConfigLoader {
 			log.warn("获取BeanLoad方式异常。", e);
 			return Beanload.reflex;
 		}
+	}
+	
+	/**
+	 * 加载事件配置
+	 * @return
+	 */
+	public WxAcceptEvent loadAcceptEvent() {
+		Beanload beanload = loadBeanload();
+		try {
+			Document doc = loadDocument();
+			Element root = doc.getRootElement();
+			Element reply = root.element("reply");
+			String eventCls = reply.attributeValue("event");
+			if (eventCls == null || eventCls.equals("")) {
+				return null;
+			}
+			WxAcceptEvent evn = (WxAcceptEvent) beanload.loadBean(eventCls);
+			return evn;
+		} catch (Exception e) {
+			log.error(e);
+		}
+		return null;
 	}
 	
 	/**
