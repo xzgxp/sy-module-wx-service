@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-targetNamespace="https://github.com/wonder-sy0618/"
-xmlns="https://github.com/wonder-sy0618/"
+targetNamespace="https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/"
+xmlns="https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/"
 elementFormDefault="qualified">
 
 	<xs:element name="note">
