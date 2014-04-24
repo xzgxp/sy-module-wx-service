@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/ 
-		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/master/src/main/resources/module/wxService/wx-reply.xsd">
+		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/master/src/main/resources/module/wxService/schema/wx-reply.xsd">
 		
 	<reply>
 		
