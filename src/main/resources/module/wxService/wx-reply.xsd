@@ -50,17 +50,17 @@ elementFormDefault="qualified">
 	      	
 			<xs:element name="reply">
 			    <xs:complexType>
-			      <xs:sequence>
+			    	<xs:all>
 			      
-					<xs:element name="event" type="acceptTypeEvent" />
-					<xs:element name="text" type="acceptTypeBase" />
-					<xs:element name="pic" type="acceptTypeBase" />
-					<xs:element name="link" type="acceptTypeBase" />
-					<xs:element name="geo" type="acceptTypeBase" />
-					<xs:element name="video" type="acceptTypeBase" />
-					<xs:element name="voice" type="acceptTypeBase" />
+						<xs:element name="event" type="acceptTypeEvent" />
+						<xs:element name="text" type="acceptTypeBase" />
+						<xs:element name="pic" type="acceptTypeBase" />
+						<xs:element name="link" type="acceptTypeBase" />
+						<xs:element name="geo" type="acceptTypeBase" />
+						<xs:element name="video" type="acceptTypeBase" />
+						<xs:element name="voice" type="acceptTypeBase" />
 					
-			      </xs:sequence>
+			    	</xs:all>
 			    </xs:complexType>
 			</xs:element>
 			
