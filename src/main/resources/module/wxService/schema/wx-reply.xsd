@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:module-wx="https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/"
+targetNamespace="https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/" 
+elementFormDefault="qualified" attributeFormDefault="unqualified" >
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+	
+	
+
+	<!-- 基础的消息受理器配置节点属性列表 -->
+	<xsd:attributeGroup name="acceptTypeBaseAttributes">
+		<xsd:attribute name="accept" type="xsd:string"  >
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+				受理器路径配置<br/>
+				如果beanload设置为reflex，这里为类路径<br/>
+				如果beanload，这里为Spring中Bean的名称
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:anyAttribute></xsd:anyAttribute>
+	</xsd:attributeGroup>	<!-- / 基础的消息受理器配置节点 -->
+	
+	
+	<!-- xml回复配置 -->
+	<xsd:complexType name="acceptXmlAnswer" mixed="true" >
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+			<ul>
+				<li>(text) 文本消息回复<br/>
+					直接在Answer写入数据类型<br/>
+					例如 <answer type="text" ><![CDATA[<br/>this is text message.<br/>] ]></answer><br/>
+				</li>
+				<li>
+					(music) 音乐消息回复<br/>
+					需要指定title, description, musicUrl, hqMusicUrl，例如<br/>
+					<answer type="music" ><br/>
+						<title>泡沫</title><br/>
+						<description>G.E.M.邓紫棋</description><br/>
+						<musicUrl>http://zhangmenshiting.baidu.com/data2/music/33795619/14945107241200128.mp3?xcode=9bc5d4c8ea6daa22663ac8488439b8fbf3b502c7ddf22793</musicUrl><br/>
+						<hqMusicUrl>http://zhangmenshiting.baidu.com/data2/music/33795619/14945107241200128.mp3?xcode=9bc5d4c8ea6daa22663ac8488439b8fbf3b502c7ddf22793</hqMusicUrl><br/>
+					</answer><br/>
+				</li>
+				<li>
+					(news) 图文消息<br/>
+					<answer type="news" ><br/>
+						<item><br/>
+							<title>百度搜索</title><br/>
+							<description>全球最大的中文搜索引擎、致力于让网民更便捷地获取信息，找到所求。百度超过千亿的中文网页数据库，可以瞬间找到相关的搜索结果。</description><br/>
+							<imageUrl>http://www.baidu.com/img/bdlogo.gif</imageUrl><br/>
+							<linkUrl>http://www.baidu.com/</linkUrl><br/>
+						</item><br/>
+					</answer><br/>
+				</li>
+			</ul>
+			
+			]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="title" minOccurs="0" ></xsd:element>
+			<xsd:element name="description" minOccurs="0" ></xsd:element>
+			<xsd:element name="musicUrl" minOccurs="0" ></xsd:element>
+			<xsd:element name="hqMusicUrl" minOccurs="0" ></xsd:element>
+			<xsd:element name="item" minOccurs="0" maxOccurs="10" >
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="title" ></xsd:element>
+						<xsd:element name="description" ></xsd:element>
+						<xsd:element name="imageUrl" ></xsd:element>
+						<xsd:element name="linkUrl" ></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="type" use="required" >
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="text"></xsd:enumeration>
+					<xsd:enumeration value="music"></xsd:enumeration>
+					<xsd:enumeration value="news"></xsd:enumeration>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType> <!-- xml回复配置 -->
+	
+	
+	<!-- 消息受器配置节点 -->
+	<xsd:complexType name="acceptTypeBase" mixed="true" >
+		<xsd:sequence>
+			<xsd:element name="answer" type="module-wx:acceptXmlAnswer" minOccurs="0" maxOccurs="1" ></xsd:element>
+		</xsd:sequence>
+  		<xsd:attributeGroup ref="module-wx:acceptTypeBaseAttributes" ></xsd:attributeGroup>
+	</xsd:complexType>		<!-- 消息受器配置节点 -->
+	
+	
+	<!-- 文本消息受理器的属性 -->
+	<xsd:complexType name="acceptTypeText" >
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[匹配表达式]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="module-wx:acceptTypeBase" >
+				<xsd:attribute name="match" type="xsd:string" use="required" ></xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>	<!-- 文本消息受理器的属性 -->
+	
+	
+	<!-- 事件消息受理器的属性 -->
+	<xsd:complexType name="acceptTypeEvent">
+		<xsd:complexContent>
+			<xsd:extension base="module-wx:acceptTypeBase" >
+				<xsd:attribute name="key"  >
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[
+						事件分发类型配置<br/>
+						结构为事件类型~事件key<br/>
+						例如菜单key为[menu_demo]的点击事件，可配置为CLICK~menu_demo
+						]]></xsd:documentation>
+					</xsd:annotation>
+			        <xsd:simpleType>
+					  <xsd:restriction base="xsd:string">
+					    <xsd:pattern value="(subscribe|unsubscribe|LOCATION|SCAN|CLICK|VIEW)~.*" />
+					  </xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+	    </xsd:complexContent>
+	</xsd:complexType>	<!-- / 事件消息受理器的属性 -->
+	
+	
+	
+	<!-- 结构配置 -->
+	<xsd:element name="wx">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[微信服务框架配置结点]]></xsd:documentation>
+		</xsd:annotation>
+	    
+        <xsd:complexType>
+	      <xsd:sequence>
+	      	
+			<xsd:element name="reply">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[微信消息应答配置]]></xsd:documentation>
+				</xsd:annotation>
+				
+			    <xsd:complexType>
+			      <xsd:sequence>
+			      
+					<xsd:element name="event" type="module-wx:acceptTypeEvent" minOccurs="0" maxOccurs="unbounded" >
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[微信事件推送]]></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					
+					<xsd:element name="text" type="module-wx:acceptTypeText"  minOccurs="0" maxOccurs="unbounded" >
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[文本消息]]></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					
+					<xsd:element name="default" type="module-wx:acceptTypeBase" minOccurs="0" maxOccurs="1"  >
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[默认消息回复]]></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					
+					<xsd:element name="pic" type="module-wx:acceptTypeBase" minOccurs="0" maxOccurs="1"  >
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[图片消息]]></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					
+					<xsd:element name="link" type="module-wx:acceptTypeBase" minOccurs="0" maxOccurs="1"  >
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[链接地址消息]]></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					
+					<xsd:element name="geo" type="module-wx:acceptTypeBase" minOccurs="0" maxOccurs="1"  >
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[地理位置消息]]></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					
+					<xsd:element name="video" type="module-wx:acceptTypeBase" minOccurs="0" maxOccurs="1"  >
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[语音消息]]></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					
+					<xsd:element name="voice" type="module-wx:acceptTypeBase" minOccurs="0" maxOccurs="1"  >
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[视频消息]]></xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					
+			      </xsd:sequence>
+			    </xsd:complexType>
+			</xsd:element>
+			
+	      </xsd:sequence>
+	      <xsd:attribute name="beanload" default="reflex" >
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+				bean加载模式<br/>
+				支持reflex(通过java反射创建)和spring(通过Spring容器创建)。<br/>
+				如果使用Spring容器创建，需要将module.wxService.service.Beanload类配置到Spring容器中
+				]]></xsd:documentation>
+			</xsd:annotation>
+	      </xsd:attribute>
+	    </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
