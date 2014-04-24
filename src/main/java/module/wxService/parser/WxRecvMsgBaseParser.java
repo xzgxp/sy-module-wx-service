@@ -8,11 +8,11 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.Node;
-import org.dom4j.Text;
 
 import module.wxService.vo.recv.WxRecvMsg;
 
 public abstract class WxRecvMsgBaseParser implements WxRecvMsgParser {
+	@SuppressWarnings("unused")
 	private static final Log log = LogFactory.getLog(WxRecvMsgBaseParser.class);
 
 	@Override
