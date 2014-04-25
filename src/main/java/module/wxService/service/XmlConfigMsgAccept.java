@@ -35,7 +35,7 @@ public class XmlConfigMsgAccept implements WxMsgAccept {
 	 * @param sendMsg
 	 * @param request
 	 * @param configNode
-	 * @return
+	 * @return template date
 	 */
 	private Map<String, Object> loadData(WxRecvMsg msg, WxSendMsg sendMsg,
 			HttpServletRequest request, Element configNode) {

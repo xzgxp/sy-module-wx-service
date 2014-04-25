@@ -27,7 +27,7 @@ public class WxAcceptEventManager implements WxAcceptEvent {
 	
 	/**
 	 * 获得事件处理对象
-	 * @return
+	 * @return 时间处理对象
 	 */
 	public static WxAcceptEvent getWxAcceptEventInstance() {
 		return new WxAcceptEventManager();

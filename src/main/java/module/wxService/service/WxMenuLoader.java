@@ -25,7 +25,7 @@ public class WxMenuLoader {
 	 * 请求访问令牌
 	 * @param appid
 	 * @param secret
-	 * @return
+	 * @return token
 	 */
 	private String requestWxAccessToken(String appid, String secret) {
 		HttpClient httpClient = new HttpClient();
@@ -101,7 +101,7 @@ public class WxMenuLoader {
 	
 	/**
 	 * 加载菜单内容
-	 * @return
+	 * @return json
 	 */
 	public String loadMenuContent() {
 		BufferedReader br = null;

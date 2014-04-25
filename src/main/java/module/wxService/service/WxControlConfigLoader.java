@@ -38,6 +38,7 @@ public class WxControlConfigLoader {
 	 * 加载基于XML配置的消息受理器
 	 * @return 消息受理器
 	 */
+	@SuppressWarnings("unchecked")
 	private WxMsgAccept loadXmlConfigMsgAccept() {
 		try {
 			Class<WxMsgAccept> cls = (Class<WxMsgAccept>) Class.forName(xmlConfigMsgAcceptClassPath);
@@ -74,7 +75,7 @@ public class WxControlConfigLoader {
 	
 	/**
 	 * 加载事件配置
-	 * @return
+	 * @return event配置
 	 */
 	public WxAcceptEvent loadAcceptEvent() {
 		Beanload beanload = loadBeanload();
@@ -193,6 +194,7 @@ public class WxControlConfigLoader {
 			Document doc = loadDocument();
 			Element root = doc.getRootElement();
 			Element reply = root.element("reply");
+			@SuppressWarnings("rawtypes")
 			Iterator eventIter = reply.elementIterator("text");
 			while (eventIter.hasNext()) {
 				Element event = (Element) eventIter.next();
@@ -236,6 +238,7 @@ public class WxControlConfigLoader {
 			Document doc = loadDocument();
 			Element root = doc.getRootElement();
 			Element reply = root.element("reply");
+			@SuppressWarnings("rawtypes")
 			Iterator eventIter = reply.elementIterator("event");
 			while (eventIter.hasNext()) {
 				Element event = (Element) eventIter.next();

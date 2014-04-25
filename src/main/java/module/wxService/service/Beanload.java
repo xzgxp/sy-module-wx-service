@@ -57,7 +57,7 @@ public class Beanload implements BeanFactoryAware {
 	/**
 	 * 加载一个Bean
 	 * @param name
-	 * @return
+	 * @return bean
 	 */
 	public Object loadBean(String name) {
 		try {
@@ -79,7 +79,7 @@ public class Beanload implements BeanFactoryAware {
 	/**
 	 * 加载消息受理器
 	 * @param accept
-	 * @return
+	 * @return wxMsgAccept
 	 */
 	public WxMsgAccept loadWxMsgAccept(String accept) {
 		try {

@@ -39,7 +39,8 @@ public interface WxAcceptEvent {
 	
 	/**
 	 * 获得消息受理对象
-	 * @param cls
+	 * @param accept
+	 * @param subElement
 	 */
 	public void findAcceptClass(AcceptNode accept, Element subElement);
 	
@@ -48,7 +49,6 @@ public interface WxAcceptEvent {
 	 * @param msg
 	 * @param sendMsg
 	 * @param accept
-	 * @param subElement
 	 */
 	public void onComplateAccept(WxRecvMsg msg, WxSendMsg sendMsg, AcceptNode accept);
 	
