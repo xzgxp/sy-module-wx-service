@@ -1,5 +1,7 @@
 package module.wxService.event;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -67,6 +69,12 @@ public interface WxAcceptEvent {
 	 * @param e
 	 */
 	public void exception(Throwable e);
+	
+	/**
+	 * XML 消息回复模板数据
+	 * @param data
+	 */
+	public void xmlMessageRecvTemplateDate(Map<String, Object> data);
 	
 
 }

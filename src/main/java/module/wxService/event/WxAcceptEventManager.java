@@ -2,6 +2,7 @@ package module.wxService.event;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -101,6 +102,13 @@ public class WxAcceptEventManager implements WxAcceptEvent {
 	public void exception(Throwable ex) {
 		for (WxAcceptEvent e : events) {
 			e.exception(ex);
+		}
+	}
+
+	@Override
+	public void xmlMessageRecvTemplateDate(Map<String, Object> data) {
+		for (WxAcceptEvent e : events) {
+			e.xmlMessageRecvTemplateDate(data);
 		}
 	}
 

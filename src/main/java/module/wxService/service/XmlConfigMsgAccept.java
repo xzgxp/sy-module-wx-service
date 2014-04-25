@@ -12,6 +12,7 @@ import org.dom4j.Element;
 
 import sy.module.core.mvc.ModuleCoreFilter;
 import sy.module.core.util.string.StringTemplateKit;
+import module.wxService.event.WxAcceptEventManager;
 import module.wxService.security.WxOpenIdKit;
 import module.wxService.vo.recv.WxRecvMsg;
 import module.wxService.vo.send.WxSendMsg;
@@ -42,6 +43,7 @@ public class XmlConfigMsgAccept implements WxMsgAccept {
 		data.put("wx_openid", msg.getFromUser());
 		data.put("wx_openid_sign", WxOpenIdKit.getOpenidSign(msg.getFromUser()));
 		data.put("url_basepath", ModuleCoreFilter.basePath);
+		WxAcceptEventManager.getWxAcceptEventInstance().xmlMessageRecvTemplateDate(data);
 		return data;
 	}
 

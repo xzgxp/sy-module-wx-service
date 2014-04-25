@@ -7,6 +7,7 @@ import org.dom4j.Element;
 import module.wxService.service.WxMsgAccept;
 import module.wxService.vo.recv.WxRecvMsg;
 import module.wxService.vo.send.WxSendMsg;
+import module.wxService.vo.send.WxSendTextMsg;
 
 /**
  * 取消关注，自动解除绑定
@@ -20,7 +21,7 @@ public class UnSubscribe implements WxMsgAccept {
 	public WxSendMsg accept(WxRecvMsg msg, WxSendMsg sendMsg,
 			HttpServletRequest request, Element configNode) {
 		// TODO Auto-generated method stub
-		return null;
+		return new WxSendTextMsg(sendMsg, "hello");
 	}
 
 }

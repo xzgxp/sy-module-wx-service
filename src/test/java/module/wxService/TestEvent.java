@@ -1,5 +1,7 @@
 package module.wxService;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -57,6 +59,12 @@ public class TestEvent implements WxAcceptEvent {
 
 	@Override
 	public void exception(Throwable e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void xmlMessageRecvTemplateDate(Map<String, Object> data) {
 		// TODO Auto-generated method stub
 		
 	}

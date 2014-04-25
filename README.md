@@ -1,114 +1,330 @@
 module-wx-service
 =================
+module-wx-service（微信服务框架）是JavaEE微信公众帐号的基础服务框架。
 
-微信服务框架
+# 功能介绍
+- 微信消息交互
+- 微信菜单提交
+
+# 获得最新版本
+## Jar文件下载
+访问<https://github.com/wonder-sy0618/repo/tree/master/sy-module/module-wx-service>获得最新版本
+需要手动添加依赖
+```
++--- sy-module:module-core:1.3a2
+|    +--- commons-dbcp:commons-dbcp:1.4
+|    |    \--- commons-pool:commons-pool:1.5.4
+|    +--- commons-logging:commons-logging:1.1.3
+|    +--- log4j:log4j:1.2.17
+|    +--- org.freemarker:freemarker:2.3.20
+|    +--- org.apache.tomcat:servlet-api:6.0.13
+|    +--- org.codehaus.jackson:jackson-core-asl:1.9.13
+|    +--- org.codehaus.jackson:jackson-core-lgpl:1.9.13
+|    +--- org.codehaus.jackson:jackson-mapper-asl:1.9.13
+|    |    \--- org.codehaus.jackson:jackson-core-asl:1.9.13
+|    \--- org.codehaus.jackson:jackson-mapper-lgpl:1.9.13
+|         \--- org.codehaus.jackson:jackson-core-lgpl:1.9.13
++--- commons-httpclient:commons-httpclient:3.1
+|    +--- commons-logging:commons-logging:1.0.4 -> 1.1.3
+|    \--- commons-codec:commons-codec:1.2
++--- dom4j:dom4j:1.6.1
+|    \--- xml-apis:xml-apis:1.0.b2
++--- jaxen:jaxen:1.1.6
++--- jdom:jdom:1.1
+|    \--- org.jdom:jdom:1.1
+\--- org.springframework:spring-beans:3.2.0.RELEASE
+     \--- org.springframework:spring-core:3.2.0.RELEASE
+          \--- commons-logging:commons-logging:1.1.1 -> 1.1.3
+```
+
+## Gradle
+将私有版本库（https://raw.githubusercontent.com/wonder-sy0618/repo/master/）添加到repositories中，声明依赖
+``` groovy
+repositories {
+    maven { url "https://raw.githubusercontent.com/wonder-sy0618/repo/master/" }
+    mavenCentral()
+}
+dependencies {
+    compile 'sy-module:module-wx-service:x.x'
+}
+```
+``` shell
+gradle cleanEclipse eclipse
+```
+
+## 如何使用
+### 1. 配置模块核心服务
+**该步骤是配置模块核心服务，如果您的项目中已经使用了其它依赖于module-core的组件，可以跳过该步骤**
+
+在web.xml文件中配置核心拦截器
+``` xml
+<filter>
+    <filter-name>ModuleCoreFilter</filter-name>
+	<filter-class>sy.module.core.mvc.ModuleCoreFilter</filter-class>
+</filter>
+<filter-mapping>
+	<filter-name>ModuleCoreFilter</filter-name>
+	<url-pattern>*</url-pattern>
+</filter-mapping>
+```
+
+[**可选**] 配置日志配置文件，在classpath://log4j.properties
+``` properties
+log4j.rootLogger=debug, console
+log4j.logger.sy.module.core.scanjars=warn
+log4j.logger.sy.module.core.moduleconfig=warn
+log4j.logger.sy.module.core.release=warn
+
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=[%d{MM-dd HH:mm:ss,SSS}] %c %m %n
+```
+
+[**可选**] 配置数据库，在classpath://configs/jdbc.properties
+``` properties
+driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
+url=jdbc\:sqlserver\://192.168.0.220\:1433;DatabaseName\=mobileNumService
+username=appdevelop
+password=appdevelop
+
+initialSize=10
+maxActive=500
+maxIdle=20
+minIdle=5
+logAbandoned=false
+removeAbandoned=true
+removeAbandonedTimeout=180
+maxWait=6000
+connectionProperties=
+defaultAutoCommit=true
+defaultReadOnly=
+defaultTransactionIsolation=READ_UNCOMMITTED
+validationQuery=select getdate()
+testOnBorrow=true
+testOnReturn=true
+testWhileIdle=true
+```
+
+[**可选**] 添加模块参数配置文件classpath://configs/config.properties
+``` properties
+# weixin access parameters
+module.wxService.token=demo-token
+module.wxService.configPath=configs/wxReply.xml
+module.wxService.appid=
+module.wxService.secret=
+module.wxService.wxMenuJsonPath=
+
+# weixin signature check pattern, the method used to control the execution of module.wxService.security.UrlCodeKit.checkOpenIdSign(openid, sign), default is : normal
+#   none : Not checked
+#   normal : Check the signature is correct
+#   strict : Check whether the signature timeout
+# module.wxService.security.checkModel=strict
+# weixin signature private key, default is : default_private_key
+# module.wxService.security.privateKey=testPrivateKey
+# weixin strict model, time check set, field Constant reference java.util.Calendar, default field[12, MINUTE], amount[30], denote 30 minute
+# module.wxService.security.strict.time.field=13
+# module.wxService.security.strict.time.amount=2
+
+```
+
+### 2. 接入配置
+- 修改模块参数配置文件，添加token
+``` properties
+module.wxService.token=demo-token
+```
+设置的值务必与微信后台设置一致
+
+- 创建消息应答配置文件，并将文件路径设置到configPath。文件基本结构如下，详细的编写请参考后文
+``` xml
+<?xml version="1.0"   ?>
+<wx
+    xmlns="https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/"	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/ 
+		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/master/src/main/resources/module/wxService/schema/wx-reply.xsd">
+		
+	<reply >
+		
+	</reply>
+</wx>
+```
+添加到配置
+``` properties
+module.wxService.configPath=configs/wxReply.xml
+```
+
+- 如果需要菜单提交，或者高级接口的支持，需要添加appid信息，该信息来自于微信后台
+``` properties
+module.wxService.appid=wx5641c2474b7e5ab7
+module.wxService.secret=d0f06e3e128cba96f1f0b7240ac24200
+```
+
+- 定义菜单结构
+添加菜单定义文件wxMenus.json，并把路径声明到配置文件
+``` json
+ {
+     "button":[
+     {    
+          "type":"click",
+          "name":"今日歌曲",
+          "key":"V1001_TODAY_MUSIC"
+      },
+      {
+           "type":"click",
+           "name":"歌手简介",
+           "key":"V1001_TODAY_SINGER"
+      },
+      {
+           "name":"菜单",
+           "sub_button":[
+           {	
+               "type":"view",
+               "name":"搜索",
+               "url":"http://www.soso.com/"
+            },
+            {
+               "type":"view",
+               "name":"视频",
+               "url":"http://v.qq.com/"
+            },
+            {
+               "type":"click",
+               "name":"赞一下我们",
+               "key":"V1001_GOOD"
+            }]
+       }]
+ }
+```
+上面的例子来自于微信公众平台开发者文档（<http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单创建接口>）
+添加菜单到配置
+``` properties
+module.wxService.wxMenuJsonPath=wxMenus.json
+```
 
 
-1. 功能描述
-1.1 微信消息交互
-1.2 支持用户上行消息和事件消息应答
-1.3 基于XML配置和基于Java的消息应答
-1.4 消息的接收支持：文本/图片/语音/视频/位置/链接/事件
-1.5 消息的发送支持：音乐/文本/图文
-1.6 支持反射方式加载应答处理对象和Spring方式加载应答处理对象
-1.7 微信服务接入验证
-1.8 自动提交微信菜单（如果存在）
+### 3. 应答配置
+#### 应答处理器
 
-2. 概念
-2.1 消息
-　　消息是微信用户与公众帐号接入服务器之间交互时传递的信息，用户发送的消息（上行）通过微信服务器发送给接入服务器，接入服务器返回的消息（下行）通过微信服务器发送给用户。
-2.2 应答处理对象
-　　微信消息通信框架，在接收到消息后，会分发给某一个Java对象来完成操作逻辑，并返回消息。这个对象即为消息处理对象。
+在configs/wxReply.xml配置wx/apply节点，该节点负责消息的接收分发。下面以关注事件消息为例，介绍如何配置。定义class文件
 
-3. 配置方式
-3.1 基础配置
-3.1.1 环境初始化方法中，实例化 support.wx.service.WxApiSupport 对象
-3.1.1.1 普通支持
-	需要提供 Token 和 配置文件的路径。
-		WxApiSupport wxApiSupport = new WxApiSupport("wxlzmtest20131006", "support/wx/demo/config/wxReply-xmlconfig.xml");
-3.1.1.2 自定义菜单支持
-	需要额外提供 appid,secret 和 微信菜单路径。
-		WxApiSupport wxApiSupport = new WxApiSupport("wxlzmtest20131006", "wxe74f6a848a951d09", 
-					"4496a76f342e7f464215c09914b8463b", "configs/wxReply.xml", "support/wx/demo/config/wxMenu.json"); 
-3.1.2 将HTTP请求交付给WxApiSupport对象完成请求
-	try {
-		wxApiSupport.notice(request, response);
-	} catch (Exception e) {
-		e.printStackTrace();
-		PrintWriter out = response.getWriter();
-		out.print("server error.");
-		out.flush();
-		out.close();
+``` java
+package module.wxService.demo;
+
+import javax.servlet.http.HttpServletRequest;
+import org.dom4j.Element;
+import module.wxService.service.WxMsgAccept;
+import module.wxService.vo.recv.WxRecvMsg;
+import module.wxService.vo.send.WxSendMsg;
+
+public class Subscribe implements WxMsgAccept {
+
+    @Override
+	public WxSendMsg accept(WxRecvMsg msg, WxSendMsg sendMsg,
+			HttpServletRequest request, Element configNode) {
+    	return new WxSendTextMsg(sendMsg, "welcome");
 	}
 
-3.2 通过反射创建Bean的配置
-3.2.1 采用反射方式创建的消息处理类必须实现 support.wx.service.WxMsgAccept 接口，在accept方法中，完成消息受理逻辑
-		package support.wx.demo.accept;
-		
-		import javax.servlet.http.HttpServletRequest;
-		
-		import org.dom4j.Element;
-		
-		import support.wx.service.WxMsgAccept;
-		import support.wx.vo.recv.WxRecvMsg;
-		import support.wx.vo.send.WxSendMsg;
-		import support.wx.vo.send.WxSendTextMsg;
-		
-		public class Default implements WxMsgAccept {
-		
-			@Override
-			public WxSendMsg accept(WxRecvMsg recvMsg, WxSendMsg sendMsg, HttpServletRequest request, Element configNode) {
-				sendMsg = new WxSendTextMsg(sendMsg, "this is text message.");
-				return sendMsg;
-			}
-		
-		}
-		
-3.2.2 在配置文件 wxReply.xml 中注册消息处理类
-		<wx beanload="reflex" >
-			<reply>
-				<default accept="support.wx.demo.accept.Default"></default>
-			</reply>
-		</wx>
+}
+```
 
-3.3 通过Spring创建Bean的配置
-3.3.1 在Spring中声明Beanload对象，在applicationContext.xml文件中添加以下代码
-		<bean class="support.wx.service.Beanload" ></bean>
-3.3.2 创建消息处理类，同3.2.1。
-3.3.3 在Spring中声明创建的Bean
-		<bean id="wx.accept.default" class="support.wx.demo.accept.Default" ></bean>
-3.3.4 在配置文件 wxReply.xml 中注册消息处理类
-		<wx beanload="spring" >
-			<reply>
-				<default accept="wx.accept.default"></default>
-			</reply>
-		</wx>
+添加配置到wx/apply节点
+``` xml
+<?xml version="1.0"   ?>
+<wx
+    xmlns="https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/"    
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/ 
+		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/master/src/main/resources/module/wxService/schema/wx-reply.xsd">
+		
+	<reply >
+    
+        <event key="subscribe~"  accept="module.wxService.demo.Subscribe"  ></event>
+        
+	</reply>
+</wx>
+```
 
-3.4 通过XML配置消息应答
-	通过XML配置消息应答可以与多种Bean创建方式（reflex/spring）共存，当accept配置不存在时，就会使用XML消息解析
-		<wx beanload="spring" >
-			<reply>
-				<text match=".*"  >
-					<answer type="text" ><![CDATA[i'm text message, from xml config]]></answer>
-				</text>
-			</reply>
-		</wx>
+支持的分发消息类型
 
-4 回复消息类型
-4.1 Java代码消息
-4.1.1 文本消息
-	new WxSendTextMsg(sendMsg, "内容");
-4.1.2 图文消息
-	WxSendNewsMsg newsMsg = new WxSendNewsMsg(sendMsg)
-			                .addItem("标题", "描述", "图片地址", "点击后跳转的链接")
-			                .addItem....
-			                // 最多可以添加10个
-4.1.3 音乐消息
-	new WxSendMusicMsg(sendMsg, "标题","描述","低品质音乐地址", "高品质音乐地址 (wifi环境会使用这个地址进行播放)");
-4.2 XML消息
-4.2.1 文本消息
-	<answer type="text" >内容</answer>
-4.2.2 图文消息
+- 事件消息
+``` xml
+<event key="subscribe~"  accept="xxx"  ></event>
+```
+```
+key参数结构：事件名称~事件值
+事件名称：subscribe，unsubscribe，LOCATION，SCAN，CLICK，VIEW
+事件值：参考微信公众平台开发者文档（<http://mp.weixin.qq.com/wiki/index.php>）
+事件值可以留空，但是中间的波浪线～不允许省略
+```
+
+- 文本消息
+``` xml
+<text match=".*" accept="xxx" ></text>
+```
+```
+match 表示匹配文本消息的正则表达式
+该参数不允许省略，如果希望匹配所有消息，请配置为.*
+```
+
+- 默认回复（当找不到当前类型的消息处理器的时候，调用默认回复）
+``` xml
+<default accept="xxx" ></default>
+```
+
+- 图片消息
+``` xml
+<img accept="xxx" ></img>
+```
+
+- 链接消息
+``` xml
+<link accept="xxx" ></link>
+```
+
+- 地理位置消息
+``` xml
+<geo accept="xxx" ></geo>
+```
+
+- 语音消息
+``` xml
+<video accept="xxx" ></video>
+```
+
+- 视频消息
+``` xml
+<voice accept="xxx" ></voice>
+```
+
+
+#### XML消息配置
+
+XML消息配置提供了一种更便捷的方式配置应答，可以配置于任何分发消息类型中。**当消息应答器中accept属性不存在时，会尝试加载answer子标签，读取XML消息配置**。
+
+- 文本消息回复
+``` xml
+<text match=".*"  >
+	<answer type="text" >i'm text message, from xml config</answer>
+</text>
+```
+
+- 语音消息回复
+``` xml
+<text match="音乐"  >
+	<answer type="music" >
+		<title>泡沫</title>
+		<description>G.E.M.邓紫棋</description>
+		<musicUrl>http://zhangmenshiting.baidu.com/data2/music/33795619/14945107241200128.mp3?xcode=9bc5d4c8ea6daa22663ac8488439b8fbf3b502c7ddf22793</musicUrl>
+		<hqMusicUrl>http://zhangmenshiting.baidu.com/data2/music/33795619/14945107241200128.mp3?xcode=9bc5d4c8ea6daa22663ac8488439b8fbf3b502c7ddf22793</hqMusicUrl>
+	</answer>
+</text>
+```
+
+- 图文消息回复
+``` xml
+<text match="图文"  >
 	<answer type="news" >
 		<item>
 			<title>百度搜索</title>
@@ -116,37 +332,116 @@ module-wx-service
 			<imageUrl>http://www.baidu.com/img/bdlogo.gif</imageUrl>
 			<linkUrl>http://www.baidu.com/</linkUrl>
 		</item>
+		<item>
+			<title>百度知道</title>
+			<description>百度知道是由全球最大的中文搜索引擎百度自主研发、基于搜索的互动式知识问答分享平台。</description>
+			<imageUrl>http://www.baidu.com/img/bdlogo.gif</imageUrl>
+			<linkUrl>http://zhidao.baidu.com/</linkUrl>
+		</item>
 	</answer>
-4.2.3 音乐消息
-	<answer type="music" >
-		<title>i'm music message title, from xml config</title>
-		<description>i'm music message description.</description>
-		<musicUrl>http://zhangmenshiting.baidu.com/data2/music/33795619/14945107241200128.mp3?xcode=9bc5d4c8ea6daa22663ac8488439b8fbf3b502c7ddf22793</musicUrl>
-		<hqMusicUrl>http://zhangmenshiting.baidu.com/data2/music/33795619/14945107241200128.mp3?xcode=9bc5d4c8ea6daa22663ac8488439b8fbf3b502c7ddf22793</hqMusicUrl>
-	</answer>
-	
-5 消息分发配置
-5.1 消息类型
-5.1.1 pic
-	图片消息
-5.1.2 link
-	链接消息
-5.1.3 geo
-	地理位置消息
-5.1.4 video
-	视频消息
-5.1.5 voice
-	语音消息
-5.1.6 text
-	文本消息，需要配置match属性，表示接受消息的匹配的正则表达式。接受所有文本消息，请传入【.*】
-5.1.7 event
-	事件消息，需要配置key属性
-5.1.7.1 subscribe~
-	用户关注
-5.1.7.2 unsubscribe~
-	用户取消关注
-5.1.7.3 click~xxx
-	菜单点击事件
+</text>
+```
+
+- XML消息配置支持表达式
+``` xml
+<text match=".*"  >
+    <answer type="text" >this open id is : ${wx_openid}</answer>
+</text>
+```
+```
+默认支持的表达式数据
+    ${wx_openid }
+    ${wx_openid_sign }
+    ${url_basepath }
+需要添加自定义属性，请参考后文事件机制，覆盖xmlMessageRecvTemplateDate事件处理方法
+表达式引擎使用Freemarker，支持更高级的语法
+请参考Freemarker官方文档（<http://freemarker.org/docs/index.html>）
+
+```
+
+### 4. Spring支持
+默认情况下消息分发器会通过java反射机制创建消息受理对象，可以通过配置从Spring容器中获得消息受理对象。
+
+- 在Spring配置文件中添加Beanload监听
+``` xml
+<bean class="support.wx.service.Beanload" ></bean>
+```
+
+- 在configs/wxReply.xml配置，为wx节点增加beanload属性，值为spring
+``` xml
+<?xml version="1.0"   ?>
+<wx beanload="spring"
+    xmlns="https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/"    
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/ 
+		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/master/src/main/resources/module/wxService/schema/wx-reply.xsd">
+		
+	<reply >
+    
+        <event key="subscribe~"  accept="module.wxService.demo.Subscribe"  ></event>
+        
+	</reply>
+</wx>
+```
+
+- 修改accept为Spring中Bean的名称
+``` xml
+<text match=".*" accept="spring_bean_name" ></text>
+```
+
+
+### 5. 事件机制
+
+允许通过配置添加事件监听器，以获得更好的扩展性
+
+- 创建事件监听对象
+``` 
+// 实现module.wxService.event.WxAcceptEvent接口
+// 或继承module.wxService.event.WxAcceptEventAdapter类
+// 并覆盖父类方法
+```
+``` java
+package module.wxService.demo;
+
+import java.util.Map;
+
+public class WxAcceptEventDemo extends WxAcceptEventAdapter {
+    @Override
+    public void xmlMessageRecvTemplateDate(Map<String, Object> data) {
+		// TODO Auto-generated method stub
+	}
+}
+```
+- 配置到configs/wxReply.xml文件中reply节点
+``` xml
+<?xml version="1.0"   ?>
+<wx
+    xmlns="https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/"	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/ 
+		https://raw.githubusercontent.com/wonder-sy0618/module-wx-service/master/src/main/resources/module/wxService/schema/wx-reply.xsd">
+		
+	<reply event="module.wxService.TestEvent" >
+		
+	</reply>
+</wx>
+```
+- 支持的事件类型
+```
+请参考module.wxService.event.WxAcceptEvent接口
+```
+
+
+## 关于
+```
+作者：石莹
+邮箱：wonder_sy0618@foxmail.com
+如果您使用中发现了bug，请提交到 [github issues](https://github.com/wonder-sy0618/module-wx-service/issues)
+如果您有更好的意见，请与我联系。
+```
+
 
 
 
