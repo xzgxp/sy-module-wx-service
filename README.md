@@ -38,7 +38,7 @@ module-wx-service（微信服务框架）是JavaEE微信公众帐号的基础服
 ```
 
 ## Gradle
-将私有版本库（https://raw.githubusercontent.com/wonder-sy0618/repo/master/）添加到repositories中，声明依赖
+将私有版本库（<https://raw.githubusercontent.com/wonder-sy0618/repo/master/>）添加到repositories中，声明依赖
 ``` groovy
 repositories {
     maven { url "https://raw.githubusercontent.com/wonder-sy0618/repo/master/" }
@@ -438,8 +438,8 @@ public class WxAcceptEventDemo extends WxAcceptEventAdapter {
 ```
 作者：石莹
 邮箱：wonder_sy0618@foxmail.com
-如果您使用中发现了bug，请提交到 [github issues](https://github.com/wonder-sy0618/module-wx-service/issues)
-如果您有更好的意见，请与我联系。
+如果您使用中发现了bug，请提交到 github issues
+如果您有更好的意见，欢迎与我联系。
 ```
 
 
