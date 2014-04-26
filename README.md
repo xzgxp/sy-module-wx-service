@@ -60,7 +60,7 @@ gradle cleanEclipse eclipse
 ``` xml
 <filter>
     <filter-name>ModuleCoreFilter</filter-name>
-	<filter-class>sy.module.core.mvc.ModuleCoreFilter</filter-class>
+    <filter-class>sy.module.core.mvc.ModuleCoreFilter</filter-class>
 </filter>
 <filter-mapping>
 	<filter-name>ModuleCoreFilter</filter-name>
@@ -431,6 +431,37 @@ public class WxAcceptEventDemo extends WxAcceptEventAdapter {
 - 支持的事件类型
 ```
 请参考module.wxService.event.WxAcceptEvent接口
+```
+
+
+### 6. 微信OAuth2.0支持
+
+提供了一种更加便捷的方式，调用微信的OAuth2.0接口
+
+- 设置微信授权回调页面域名
+```
+在微信后台设置授权回调域名
+注意：80端口不能被省略
+```
+
+- 或者接口地址
+``` xml
+<a href="<%=module.wxService.service.WeixinOAuthKit.loadWeixinAdvancedOAuthUrl("module/wxService/demo/index.jsp") %>" >使用微信登录</a>
+```
+其中，传入的地址是相对项目的地址，在调用该地址前，用户信息会被写入session
+
+- 获得用户信息
+``` java
+request.getSession().getAttribute("module-wx-service_oauth_openid");
+request.getSession().getAttribute("module-wx-service_oauth_headimgurl");
+request.getSession().getAttribute("module-wx-service_oauth_city");
+request.getSession().getAttribute("module-wx-service_oauth_privilege");
+request.getSession().getAttribute("module-wx-service_oauth_sex");
+request.getSession().getAttribute("module-wx-service_oauth_province");
+request.getSession().getAttribute("module-wx-service_oauth_nickname");
+request.getSession().getAttribute("module-wx-service_oauth_key");
+request.getSession().getAttribute("module-wx-service_oauth_language");
+request.getSession().getAttribute("module-wx-service_oauth_country");
 ```
 
 
