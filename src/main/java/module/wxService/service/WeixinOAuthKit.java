@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.SimpleHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,13 +60,13 @@ public class WeixinOAuthKit {
 	 * @return Map
 	 */
 	private Map<String, Object> pullUserInfo(Map<String, Object> token) {
+		String url = "https://api.weixin.qq.com/sns/userinfo?access_token="+token.get("access_token")+
+				"&openid="+token.get("openid")+
+				"&lang=zh_CN";
+		//
+		HttpClient http = new HttpClient();
+		GetMethod get = new GetMethod(url);
 		try {
-			String url = "https://api.weixin.qq.com/sns/userinfo?access_token="+token.get("access_token")+
-					"&openid="+token.get("openid")+
-					"&lang=zh_CN";
-			//
-			HttpClient http = new HttpClient();
-			GetMethod get = new GetMethod(url);
 			http.executeMethod(get);
 			String res = new String(get.getResponseBody(), "UTF-8");
 			// 解析
@@ -76,6 +77,9 @@ public class WeixinOAuthKit {
 			}
 		} catch (Exception e) {
 			log.warn("拉取用户信息失败。", e);
+		} finally {
+			get.releaseConnection();
+			((SimpleHttpConnectionManager) http.getHttpConnectionManager()).shutdown();
 		}
 		return null;
 	}
