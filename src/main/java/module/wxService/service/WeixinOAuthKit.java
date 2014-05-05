@@ -114,7 +114,7 @@ public class WeixinOAuthKit {
 				}
 			}
 		}
-		return "redirect:" + ModuleCoreFilter.basePath + relativelyUrl;
+		return "redirect:" + ModuleCoreFilter.getRequestContext().basePath + relativelyUrl;
 	}
 	
 	/**
@@ -125,7 +125,7 @@ public class WeixinOAuthKit {
 	public static String loadWeixinAdvancedOAuthUrl(String relativelyUrl) {
 		try {
 			String appid = PropertiesLoader.getInstance().getConfig("module.wxService.appid");
-			String redirect_uri = ModuleCoreFilter.basePath + "module/wxService/weixinAdvancedOAuth.do";
+			String redirect_uri = ModuleCoreFilter.getRequestContext().basePath + "module/wxService/weixinAdvancedOAuth.do";
 			String response_type = "code";
 			String scope = "snsapi_userinfo";
 			String state = Base64Util.encodeForString(relativelyUrl);

@@ -42,7 +42,7 @@ public class XmlConfigMsgAccept implements WxMsgAccept {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("wx_openid", msg.getFromUser());
 		data.put("wx_openid_sign", WxOpenIdKit.getOpenidSign(msg.getFromUser()));
-		data.put("url_basepath", ModuleCoreFilter.basePath);
+		data.put("url_basepath", ModuleCoreFilter.getRequestContext().basePath);
 		WxAcceptEventManager.getWxAcceptEventInstance().xmlMessageRecvTemplateDate(data);
 		return data;
 	}
