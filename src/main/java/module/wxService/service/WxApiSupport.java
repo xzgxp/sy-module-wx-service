@@ -138,6 +138,9 @@ public class WxApiSupport {
 			}
 			// log.debug("recv input stream：\n" + new String(baos.toByteArray(), "UTF-8") + "\n");
 			ByteArrayInputStream in = new ByteArrayInputStream(baos.toByteArray());
+			System.out.println("===================================================");
+			System.out.println(new String(baos.toByteArray(), "UTF-8"));
+			System.out.println("===================================================");
 			// event
 			WxAcceptEventManager.getWxAcceptEventInstance().onRevcMsg(new String(baos.toByteArray(), "UTF-8"), request, response);
 			// 接收消息

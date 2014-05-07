@@ -25,18 +25,22 @@ public final class WeiXin {
 	private static final Log log = LogFactory.getLog(WeiXin.class);
 	
 	public static boolean access(String token,String signature,String timestamp,String nonce) {
-		List<String> ss = new ArrayList<String>();
-		ss.add(timestamp);
-		ss.add(nonce);
-		ss.add(token);
-		
-		Collections.sort(ss);
-		
-		StringBuilder builder = new StringBuilder();
-		for(String s : ss) {
-			builder.append(s);
+		if (token != null && signature != null && timestamp != null && nonce != null) {
+			List<String> ss = new ArrayList<String>();
+			ss.add(timestamp);
+			ss.add(nonce);
+			ss.add(token);
+			
+			Collections.sort(ss);
+			
+			StringBuilder builder = new StringBuilder();
+			for(String s : ss) {
+				builder.append(s);
+			}
+			return signature.equalsIgnoreCase(HashKit.sha1(builder.toString()));
+		} else {
+			return false;
 		}
-		return signature.equalsIgnoreCase(HashKit.sha1(builder.toString()));
 	}
 	
 	public static WxRecvMsg recv(InputStream in) throws IOException, DocumentException {

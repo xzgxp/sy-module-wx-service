@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xml>
+  <ToUserName><![CDATA[gh_2cc696e04b98]]></ToUserName>  
+  <FromUserName><![CDATA[oRVwHuIA8N8MaHb_12K3HCNmOs9E]]></FromUserName>  
+  <CreateTime>1399351074</CreateTime>  
+  <MsgType><![CDATA[location]]></MsgType>  
+  <Location_X>34.237854</Location_X>  
+  <Location_Y>108.900398</Location_Y>  
+  <Scale>16</Scale>  
+  <Label><![CDATA[中国陕西省西安市雁塔区高新商圈高新三路12号 邮政编码: 710065]]></Label>  
+  <MsgId>6010167098652610694</MsgId> 
+</xml>

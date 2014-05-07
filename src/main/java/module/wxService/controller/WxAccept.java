@@ -43,7 +43,7 @@ public class WxAccept {
 		try {
 			wxApiSupport.notice(request, response);
 		} catch (Exception e) {
-			log.warn("微信消息受理异常。");
+			log.warn("微信消息受理异常。", e);
 		}
 	}
 	

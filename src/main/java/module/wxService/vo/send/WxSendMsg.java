@@ -46,6 +46,9 @@ public class WxSendMsg extends WxMsg {
 	}
 	
 	protected Element createElement(Element parent,String name,String value) {
+		if (value == null) {
+			value = "";
+		}
 		Element elem = parent.addElement(name); 
 		elem.setText(value);
 		return elem;
