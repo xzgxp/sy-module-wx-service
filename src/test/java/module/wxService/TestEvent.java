@@ -54,7 +54,8 @@ public class TestEvent implements WxAcceptEvent {
 
 	@Override
 	public void onComplateSendMsg(String xmlstring) {
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>. 消息发送了");
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

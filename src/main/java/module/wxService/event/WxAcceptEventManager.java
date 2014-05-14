@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import module.wxService.msgdump.WxMessageDumpListener;
 import module.wxService.service.AcceptNode;
 import module.wxService.vo.recv.WxRecvMsg;
 import module.wxService.vo.send.WxSendMsg;
@@ -23,7 +24,9 @@ public class WxAcceptEventManager implements WxAcceptEvent {
 	
 	private static final List<WxAcceptEvent> events = new ArrayList<WxAcceptEvent>();
 	
-	private WxAcceptEventManager() {}
+	static {
+		events.add(new WxMessageDumpListener());
+	}
 	
 	/**
 	 * 获得事件处理对象
