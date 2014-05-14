@@ -47,6 +47,7 @@ public final class WeiXin {
 		return WxMsgKit.parse(in);
 	}
 	
+	@SuppressWarnings("unused")
 	public static void send(WxSendMsg msg,OutputStream out) throws IOException, DocumentException {
 		Document doc = WxMsgKit.parse(msg);
 		Document dom = DocumentHelper.parseText(doc.asXML());

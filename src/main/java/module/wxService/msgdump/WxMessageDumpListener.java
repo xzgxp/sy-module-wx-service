@@ -15,7 +15,6 @@ import org.apache.commons.logging.LogFactory;
 import sy.module.core.config.PropertiesLoader;
 import sy.module.core.dao.Dao;
 import module.wxService.event.WxAcceptEventAdapter;
-import module.wxService.parser.WxRecvVideoMsgParser;
 import module.wxService.service.AcceptNode;
 import module.wxService.vo.recv.WxRecvEventMsg;
 import module.wxService.vo.recv.WxRecvGeoMsg;
