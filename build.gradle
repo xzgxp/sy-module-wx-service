@@ -7,7 +7,7 @@ sourceCompatibility = '1.6'
 targetCompatibility = '1.6'
 groupId = "sy-module"
 artifactId = "module-wx-service"
-version = '1.1a3'
+version = '1.2a1'
 developerName = "wxService"
 
 
@@ -100,11 +100,16 @@ task createSyXml << {
 	def writer = new StringWriter()
 	def xml = new groovy.xml.MarkupBuilder(writer)
 	xml.sy() {
-		//dbinit(dbtype:"sqlserver") {
-		//	checkConnectionSql("select 1")
-		//	checkTableName("module_wxService_community")
-		//	initSqlPath("module/${developerName }/sqlserver-init.sql")
-		//}
+		dbinit(dbtype:"mysql") {
+			checkConnectionSql("select 1")
+			checkTableName("module_wxservice_msg_dump")
+			initSqlPath("module/${developerName }/mysql-init.sql")
+		}
+		dbinit(dbtype:"sqlserver") {
+			checkConnectionSql("select 1")
+			checkTableName("module_wxservice_msg_dump")
+			initSqlPath("module/${developerName }/sqlserver-init.sql")
+		}
 		resources() {
 			release() {
 				from("webapp/module/${developerName }/resources")

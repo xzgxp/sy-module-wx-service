@@ -50,6 +50,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 	 */
 	private boolean isEnableWxMsgDump() {
 		if (enableWxMsgDump == null) {
+			// 读取配置
 			enableWxMsgDump = PropertiesLoader.getInstance().getConfig("module.wxService.msgDump.enable", false);
 		}
 		return enableWxMsgDump;
