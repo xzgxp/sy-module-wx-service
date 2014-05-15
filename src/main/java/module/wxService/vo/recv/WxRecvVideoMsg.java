@@ -9,11 +9,13 @@ public class WxRecvVideoMsg extends WxRecvMsg {
 	
 	private String mediaId;
 	private String format;
+	private String thumbMediaId;
 	
-	public WxRecvVideoMsg(WxRecvMsg msg, String mediaId, String format) {
+	public WxRecvVideoMsg(WxRecvMsg msg, String mediaId, String format, String thumbMediaId) {
 		super(msg);
 		this.mediaId = mediaId;
 		this.format = format;
+		this.thumbMediaId = thumbMediaId;
 	}
 	public String getMediaId() {
 		return mediaId;
@@ -26,6 +28,12 @@ public class WxRecvVideoMsg extends WxRecvMsg {
 	}
 	public void setFormat(String format) {
 		this.format = format;
+	}
+	public String getThumbMediaId() {
+		return thumbMediaId;
+	}
+	public void setThumbMediaId(String thumbMediaId) {
+		this.thumbMediaId = thumbMediaId;
 	}
 	
 	

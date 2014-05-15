@@ -23,10 +23,13 @@ CREATE TABLE module_wxservice_msg_dump (
   analyse_link_title varchar(200) DEFAULT NULL , /* 链接，标题 */
   analyse_link_url varchar(200) DEFAULT NULL , /* 链接，地址 */
   analyse_pic_url varchar(200) DEFAULT NULL , /* 图片，图片地址 */
+  analyse_pic_mediaid varchar(200) DEFAULT NULL , /* 图片，媒体ID */
+  analyse_voice_type varchar(200) DEFAULT NULL , /* 语音，类型 */
   analyse_voice_mediaid varchar(200) DEFAULT NULL , /* 语音，媒体ID */
   analyse_voice_recognition varchar(200) DEFAULT NULL , /* 语音，识别结果 */
   analyse_video_type varchar(200) DEFAULT NULL , /* 视频，类型 */
   analyse_video_mediaid varchar(200) DEFAULT NULL , /* 视频，媒体id */
+  analyse_video_thumb_mediaid varchar(200) DEFAULT NULL , /* 视频，缩略图媒体id */
   PRIMARY KEY (log_row_id)
 ); /* 微信交互日志表 */ 
 

@@ -16,7 +16,7 @@ public class MenuService {
 	 * 提交自定义菜单
 	 * @param accessToken
 	 * @param jsonBody
-	 * @return
+	 * @return 提交状态
 	 * @throws Exception
 	 */
 	@SuppressWarnings("deprecation")

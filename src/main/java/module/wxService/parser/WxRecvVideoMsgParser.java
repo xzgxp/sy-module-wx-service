@@ -12,7 +12,7 @@ public class WxRecvVideoMsgParser extends WxRecvMsgBaseParser {
 
 	@Override
 	protected WxRecvVideoMsg parser(Element root, WxRecvMsg msg)  throws IOException, DocumentException {
-		return new WxRecvVideoMsg(msg, getElementText(root, "MediaId"), getElementText(root, "Format"));
+		return new WxRecvVideoMsg(msg, getElementText(root, "MediaId"), getElementText(root, "Format"), getElementText(root, "ThumbMediaId"));
 	}
 
 	

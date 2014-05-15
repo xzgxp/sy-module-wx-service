@@ -12,7 +12,7 @@ public class WxRecvPicMsgParser extends WxRecvMsgBaseParser {
 
 	@Override
 	protected WxRecvPicMsg parser(Element root, WxRecvMsg msg)  throws IOException, DocumentException {
-		return new WxRecvPicMsg(msg, getElementText(root, "PicUrl"));
+		return new WxRecvPicMsg(msg, getElementText(root, "PicUrl"), getElementText(root, "MediaId"));
 	}
 
 }

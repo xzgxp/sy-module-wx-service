@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import module.wxService.msgdump.WxMessageDumpListener;
+import module.wxService.msgdump.WxMessageMediaDownloadListener;
 import module.wxService.service.AcceptNode;
 import module.wxService.vo.recv.WxRecvMsg;
 import module.wxService.vo.send.WxSendMsg;
@@ -26,6 +27,7 @@ public class WxAcceptEventManager implements WxAcceptEvent {
 	
 	static {
 		events.add(new WxMessageDumpListener());
+		events.add(new WxMessageMediaDownloadListener());
 	}
 	
 	/**

@@ -63,7 +63,7 @@ gradle cleanEclipse eclipse
     <filter-class>sy.module.core.mvc.ModuleCoreFilter</filter-class>
 </filter>
 <filter-mapping>
-	<filter-name>ModuleCoreFilter</filter-name>
+    <filter-name>ModuleCoreFilter</filter-name>
 	<url-pattern>*</url-pattern>
 </filter-mapping>
 ```
@@ -463,6 +463,46 @@ request.getSession().getAttribute("module-wx-service_oauth_key");
 request.getSession().getAttribute("module-wx-service_oauth_language");
 request.getSession().getAttribute("module-wx-service_oauth_country");
 ```
+
+
+### 7. 多媒体资源上传/下载支持
+``` java
+File savePath = new File("d:\\");
+File upload = new File("C:\\Users\\Administrator\\Pictures\\image.jpg");
+System.out.println(">> upload : " + upload);
+String mediaid = MediaTransport.upload(appid, secret, upload, MediaType.image);
+System.out.println(">> media : " + mediaid);
+File download = MediaTransport.download(appid, secret, mediaid, savePath);
+System.out.println(">> download : " + download);
+```
+
+
+### 8. 消息转储
+
+支持将交互的消息自动保存到数据库，便于分析和统计
+
+- 启用基本消息转储
+```
+# is enable weixin message dump, auto write to table module_wxservice_msg_dump
+module.wxService.msgDump.enable=true
+# buffersize, defualt 10
+module.wxService.msgDump.buffersize=2
+# 系统会自动在数据库写入一张表module_wxservice_msg_dump，保存所有消息交互
+
+```
+
+- 启用多媒体资源下载转储
+```
+# is enable weixin media download, default is false
+# default use weixin advanced interface, see http://mp.weixin.qq.com/wiki/index.php?title=%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD%E5%A4%9A%E5%AA%92%E4%BD%93%E6%96%87%E4%BB%B6
+# if not config module.wxService.appid or module.wxService.secret, only support picture download
+module.wxService.msgMediaDownload.enable=true
+# media save path, relatively tomcat project, 
+# default is module\wxService\wx_media, save as D:\evn\apache-tomcat-6.0.37\webapps\module-wx-service\module\wxService\wx_media
+module.wxService.msgMediaDownload.savepath=module\\wxService\\wx_media
+
+```
+
 
 
 ## 关于

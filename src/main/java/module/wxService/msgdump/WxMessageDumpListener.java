@@ -46,7 +46,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 	
 	/**
 	 * 是否启用了微信消息转储
-	 * @return
+	 * @return 启用状态
 	 */
 	private boolean isEnableWxMsgDump() {
 		if (enableWxMsgDump == null) {
@@ -116,7 +116,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "analyse_msg_msgtype, analyse_msg_id, analyse_text_content "
 					+ ") values (?,?,?,?,?,?,?,?)", 
 					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
-					"event", msg.getMsgId(), msg.getContent());
+					"text", msg.getMsgId(), msg.getContent());
 			
 		} else if (revcMsg instanceof WxRecvGeoMsg) {
 			// 位置消息接收
@@ -127,7 +127,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "analyse_location_longitude, analyse_location_scale, analyse_location_label "
 					+ ") values (?,?,?,?,?,?,?,?,?,?,?)", 
 					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
-					"event", msg.getMsgId(), msg.getLatitude(), msg.getLongitude(), 
+					"geo", msg.getMsgId(), msg.getLatitude(), msg.getLongitude(), 
 					msg.getScale(), msg.getLabel());
 			
 		} else if (revcMsg instanceof WxRecvLinkMsg) {
@@ -138,17 +138,17 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "analyse_msg_msgtype, analyse_msg_id, analyse_link_title, analyse_link_url "
 					+ ") values (?,?,?,?,?,?,?,?,?)", 
 					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
-					"event", msg.getMsgId(), msg.getTitle(), msg.getUrl());
+					"link", msg.getMsgId(), msg.getTitle(), msg.getUrl());
 			
 		} else if (revcMsg instanceof WxRecvPicMsg) {
 			// 图片消息接收
 			WxRecvPicMsg msg = (WxRecvPicMsg) revcMsg;
 			appendSql(" INSERT INTO module_wxservice_msg_dump ("
 					+ "log_timestamp, log_type, wx_fromid, wx_descid, xml_body, "
-					+ "analyse_msg_msgtype, analyse_msg_id, analyse_pic_url "
-					+ ") values (?,?,?,?,?,?,?,?)", 
+					+ "analyse_msg_msgtype, analyse_msg_id, analyse_pic_url, analyse_pic_mediaid "
+					+ ") values (?,?,?,?,?,?,?,?,?)", 
 					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
-					"event", msg.getMsgId(), msg.getPicUrl());
+					"pic", msg.getMsgId(), msg.getPicUrl(), msg.getMediaId());
 			
 		} else if (revcMsg instanceof WxRecvVoiceMsg) {
 			// 语音消息接收
@@ -156,19 +156,20 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 			appendSql(" INSERT INTO module_wxservice_msg_dump ("
 					+ "log_timestamp, log_type, wx_fromid, wx_descid, xml_body, "
 					+ "analyse_msg_msgtype, analyse_msg_id, analyse_voice_type, analyse_voice_mediaid, analyse_voice_recognition "
-					+ ") values (?,?,?,?,?,?,?,?,?)", 
+					+ ") values (?,?,?,?,?,?,?,?,?,?)", 
 					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
-					"event", msg.getMsgId(), msg.getMediaId(), msg.getRecognition());
+					"voice", msg.getMsgId(), msg.getFormat(), msg.getMediaId(), msg.getRecognition());
 			
 		} else if (revcMsg instanceof WxRecvVideoMsg) {
 			// 视频消息接收
 			WxRecvVideoMsg msg = (WxRecvVideoMsg) revcMsg;
 			appendSql(" INSERT INTO module_wxservice_msg_dump ("
 					+ "log_timestamp, log_type, wx_fromid, wx_descid, xml_body, "
-					+ "analyse_msg_msgtype, analyse_msg_id, analyse_video_type, analyse_video_mediaid "
-					+ ") values (?,?,?,?,?,?,?,?,?)", 
+					+ "analyse_msg_msgtype, analyse_msg_id, analyse_video_type, "
+					+ "analyse_video_mediaid, analyse_video_thumb_mediaid "
+					+ ") values (?,?,?,?,?,?,?,?,?,?)", 
 					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
-					"event", msg.getMsgId(), msg.getFormat(), msg.getMediaId());
+					"video", msg.getMsgId(), msg.getFormat(), msg.getMediaId(), msg.getThumbMediaId());
 			
 		}
 	}

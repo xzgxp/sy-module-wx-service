@@ -16,7 +16,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class AccessTokenService {
 	private static final Log log = LogFactory.getLog(AccessTokenService.class);
-
 	
 	/**
 	 * 请求访问令牌
