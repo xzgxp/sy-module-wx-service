@@ -64,7 +64,7 @@ gradle cleanEclipse eclipse
 </filter>
 <filter-mapping>
     <filter-name>ModuleCoreFilter</filter-name>
-	<url-pattern>*</url-pattern>
+    <url-pattern>*</url-pattern>
 </filter-mapping>
 ```
 
@@ -502,6 +502,12 @@ module.wxService.msgMediaDownload.enable=true
 module.wxService.msgMediaDownload.savepath=module\\wxService\\wx_media
 
 ```
+
+
+### 9. 主动下推（客服接口支持）
+客服接口的支持工具包全部为静态方法，调用方式请参考测试单元
+
+<https://github.com/wonder-sy0618/sy-module-wx-service/blob/master/src/test/java/module/wxService/TestServicePush.java>
 
 
 
