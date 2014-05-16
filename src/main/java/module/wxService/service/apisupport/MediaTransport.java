@@ -1,8 +1,11 @@
 package module.wxService.service.apisupport;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -177,7 +180,24 @@ public class MediaTransport {
 		//
 		String url = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token="+accessToken+"&media_id="+mediaId;
 		//
-		return download(url, savePath);
+		File file = download(url, savePath);
+		if (file.exists() && file.getName().endsWith(".plain")) {
+			String content = "";
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+			try {
+				String line = null;
+				while ((line = br.readLine()) != null) {
+					content += line;
+					content += "\n";
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				br.close();
+			}
+			throw new Exception("file download exception. " + content);
+		}
+		return file;
 	}
 
 }
