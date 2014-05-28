@@ -1,5 +1,5 @@
 module-wx-service
-=================
+================= 
 module-wx-service（微信服务框架）是JavaEE微信公众帐号的基础服务框架。
 
 # 功能介绍
