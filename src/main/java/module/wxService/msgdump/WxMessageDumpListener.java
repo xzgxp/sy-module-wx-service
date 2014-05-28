@@ -1,6 +1,7 @@
 package module.wxService.msgdump;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -101,7 +102,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "analyse_msg_msgtype, analyse_msg_id, analyse_event_type, "
 					+ "analyse_event_key, analyse_location_latitude, analyse_location_longitude, analyse_location_precision "
 					+ ") values (?,?,?,?,?,?,?,?,?,?,?,?)", 
-					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
 					"event", msg.getMsgId(), msg.getEvent(),
 					(msg.getEventKey() != null ? msg.getEventKey() : null), 
 					("LOCATION".equals(msg.getEvent()) ? msg.getLatitude() : ""), 
@@ -115,7 +116,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "log_timestamp, log_type, wx_fromid, wx_descid, xml_body, "
 					+ "analyse_msg_msgtype, analyse_msg_id, analyse_text_content "
 					+ ") values (?,?,?,?,?,?,?,?)", 
-					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
 					"text", msg.getMsgId(), msg.getContent());
 			
 		} else if (revcMsg instanceof WxRecvGeoMsg) {
@@ -126,7 +127,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "analyse_msg_msgtype, analyse_msg_id, analyse_location_latitude, "
 					+ "analyse_location_longitude, analyse_location_scale, analyse_location_label "
 					+ ") values (?,?,?,?,?,?,?,?,?,?,?)", 
-					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
 					"geo", msg.getMsgId(), msg.getLatitude(), msg.getLongitude(), 
 					msg.getScale(), msg.getLabel());
 			
@@ -137,7 +138,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "log_timestamp, log_type, wx_fromid, wx_descid, xml_body, "
 					+ "analyse_msg_msgtype, analyse_msg_id, analyse_link_title, analyse_link_url "
 					+ ") values (?,?,?,?,?,?,?,?,?)", 
-					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
 					"link", msg.getMsgId(), msg.getTitle(), msg.getUrl());
 			
 		} else if (revcMsg instanceof WxRecvPicMsg) {
@@ -147,7 +148,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "log_timestamp, log_type, wx_fromid, wx_descid, xml_body, "
 					+ "analyse_msg_msgtype, analyse_msg_id, analyse_pic_url, analyse_pic_mediaid "
 					+ ") values (?,?,?,?,?,?,?,?,?)", 
-					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
 					"pic", msg.getMsgId(), msg.getPicUrl(), msg.getMediaId());
 			
 		} else if (revcMsg instanceof WxRecvVoiceMsg) {
@@ -157,7 +158,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "log_timestamp, log_type, wx_fromid, wx_descid, xml_body, "
 					+ "analyse_msg_msgtype, analyse_msg_id, analyse_voice_type, analyse_voice_mediaid, analyse_voice_recognition "
 					+ ") values (?,?,?,?,?,?,?,?,?,?)", 
-					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
 					"voice", msg.getMsgId(), msg.getFormat(), msg.getMediaId(), msg.getRecognition());
 			
 		} else if (revcMsg instanceof WxRecvVideoMsg) {
@@ -168,7 +169,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "analyse_msg_msgtype, analyse_msg_id, analyse_video_type, "
 					+ "analyse_video_mediaid, analyse_video_thumb_mediaid "
 					+ ") values (?,?,?,?,?,?,?,?,?,?)", 
-					new Date(), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()), "revc", msg.getFromUser(), msg.getToUser(), threadLocal.get(), 
 					"video", msg.getMsgId(), msg.getFormat(), msg.getMediaId(), msg.getThumbMediaId());
 			
 		}
@@ -190,7 +191,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "log_timestamp, log_type, wx_fromid, wx_descid, xml_body, "
 					+ "analyse_msg_msgtype, analyse_msg_id, analyse_text_content "
 					+ ") values (?,?,?,?,?,?,?,?)", 
-					new Date(), "send", send.getFromUser(), send.getToUser(), threadLocal.get(), 
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()), "send", send.getFromUser(), send.getToUser(), threadLocal.get(), 
 					"event", "reply_" + msg.getMsgId(), send.getContent());
 		} else if (sendMsg instanceof WxSendNewsMsg) {
 			// 图文消息发送
@@ -199,7 +200,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "log_timestamp, log_type, wx_fromid, wx_descid, xml_body, "
 					+ "analyse_msg_msgtype, analyse_msg_id "
 					+ ") values (?,?,?,?,?,?,?)", 
-					new Date(), "send", send.getFromUser(), send.getToUser(), threadLocal.get(), 
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()), "send", send.getFromUser(), send.getToUser(), threadLocal.get(), 
 					"event", "reply_" + msg.getMsgId());
 		} else if (sendMsg instanceof WxSendMusicMsg) {
 			// 音乐消息发送
@@ -208,7 +209,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "log_timestamp, log_type, wx_fromid, wx_descid, xml_body, "
 					+ "analyse_msg_msgtype, analyse_msg_id "
 					+ ") values (?,?,?,?,?,?,?)", 
-					new Date(), "send", send.getFromUser(), send.getToUser(), threadLocal.get(), 
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()), "send", send.getFromUser(), send.getToUser(), threadLocal.get(), 
 					"event", "reply_" + msg.getMsgId());
 		} else {
 			// 其它消息
@@ -217,7 +218,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 					+ "log_timestamp, log_type, wx_fromid, wx_descid, xml_body, "
 					+ "analyse_msg_msgtype, analyse_msg_id "
 					+ ") values (?,?,?,?,?,?,?)", 
-					new Date(), "send", send.getFromUser(), send.getToUser(), threadLocal.get(), 
+					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()), "send", send.getFromUser(), send.getToUser(), threadLocal.get(), 
 					"event", "reply_" + msg.getMsgId());
 		}
 	}

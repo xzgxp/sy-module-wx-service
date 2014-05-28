@@ -17,6 +17,12 @@ public class WxAccept {
 	
 	private WxApiSupport wxApiSupport;
 
+	
+	/**
+	 * 通知入口
+	 * @param request
+	 * @param response
+	 */
 	@ModuleAction(url="notice")
 	public void notice(HttpServletRequest request, HttpServletResponse response) {
 		if (wxApiSupport == null) {

@@ -24,7 +24,7 @@ public class AccessTokenService {
 	
 	/**
 	 * 获取Token缓存
-	 * @return
+	 * @return cache data
 	 */
 	public Map<String, TokenCache> getTokenCache() {
 		return cache;

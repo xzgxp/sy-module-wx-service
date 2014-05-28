@@ -46,8 +46,14 @@ public class ServicePushKit {
 	
 	/**
 	 * 视频消息推送
-	 * @param openId
-	 * @param content
+	 * @param openid
+	 * @param musicurl
+	 * @param hqmusicurl
+	 * @param thumb_media_id
+	 * @param title
+	 * @param description
+	 * @param appid
+	 * @param secret
 	 * @throws Exception
 	 */
 	public static void pushMusicMessage(
@@ -70,8 +76,12 @@ public class ServicePushKit {
 	
 	/**
 	 * 视频消息推送
-	 * @param openId
-	 * @param content
+	 * @param openid
+	 * @param mediaid
+	 * @param title
+	 * @param description
+	 * @param appid
+	 * @param secret
 	 * @throws Exception
 	 */
 	public static void pushVideoMessage(
@@ -91,8 +101,10 @@ public class ServicePushKit {
 	
 	/**
 	 * 语音消息推送
-	 * @param openId
-	 * @param content
+	 * @param openid
+	 * @param mediaid
+	 * @param appid
+	 * @param secret
 	 * @throws Exception
 	 */
 	public static void pushVoiceMessage(
@@ -108,8 +120,10 @@ public class ServicePushKit {
 	
 	/**
 	 * 图片消息推送
-	 * @param openId
-	 * @param content
+	 * @param openid
+	 * @param mediaid
+	 * @param appid
+	 * @param secret
 	 * @throws Exception
 	 */
 	public static void pushPictureMessage(
@@ -125,8 +139,10 @@ public class ServicePushKit {
 	
 	/**
 	 * 文本消息推送
-	 * @param openId
+	 * @param openid
 	 * @param content
+	 * @param appid
+	 * @param secret
 	 * @throws Exception
 	 */
 	public static void pushTextMessage(
@@ -142,7 +158,9 @@ public class ServicePushKit {
 	/**
 	 * 提交消息
 	 * @param xml
-	 * @throws Exception 
+	 * @param appid
+	 * @param secret
+	 * @throws Exception
 	 */
 	@SuppressWarnings("deprecation")
 	private static void postMessage(String xml, String appid, String secret) throws Exception {
@@ -182,7 +200,7 @@ public class ServicePushKit {
 	 * 处理模板
 	 * @param templateName
 	 * @param data
-	 * @return
+	 * @return rs
 	 * @throws Exception
 	 */
 	private static String treatmentTemplate(

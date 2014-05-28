@@ -5,10 +5,10 @@ apply plugin: 'eclipse'
 // 参数设置
 sourceCompatibility = '1.6'
 targetCompatibility = '1.6'
-groupId = "sy-module"
-artifactId = "module-wx-service"
-version = '1.2a3'
-developerName = "wxService"
+groupId = 'sy-module'
+artifactId = 'module-wx-service'
+version = '1.2a5'
+developerName = 'wxService'
 
 
 // 发布版本
@@ -22,10 +22,10 @@ jar {
 
 // 中央库
 repositories {
-    maven { url "file://C:\\Users\\Administrator\\git\\repo" }
-    maven { url "http://192.168.0.220:8081/nexus/content/groups/public/" }
-    maven { url "https://raw.githubusercontent.com/wonder-sy0618/repo/master/" }
-    maven { url "http://maven.oschina.net/content/groups/public/" }
+    maven { url 'file://C:\\Users\\Administrator\\git\\repo' }
+    maven { url 'http://192.168.0.220:8081/nexus/content/groups/public/' }
+    maven { url 'https://raw.githubusercontent.com/wonder-sy0618/repo/master/' }
+    maven { url 'http://maven.oschina.net/content/groups/public/' }
 	mavenCentral()
 }
 
@@ -33,7 +33,7 @@ repositories {
 // 依赖
 dependencies {
 	
-    compile 'sy-module:module-core:1.4a5'
+    compile 'sy-module:module-core:1.4a8'
     compile 'commons-httpclient:commons-httpclient:3.1'
 	
 	compile 'dom4j:dom4j:1.6.1'
@@ -50,22 +50,22 @@ dependencies {
 eclipse.classpath.file.withXml {
 	def node = it.asNode();
 	for (Node n : node.children()) {
-		if ("lib".equals(n.attribute("kind"))) {
-			def node_attributes = new Node(n, "attributes");
-			def map = [name:"org.eclipse.jst.component.dependency", value:"/WEB-INF/lib"]
-			def node_attribute = new Node(node_attributes, "attribute", map);
+		if ('lib'.equals(n.attribute('kind'))) {
+			def node_attributes = new Node(n, 'attributes');
+			def map = [name:'org.eclipse.jst.component.dependency', value:'/WEB-INF/lib']
+			def node_attribute = new Node(node_attributes, 'attribute', map);
 		}
 	}
 }
 task createProjectDirs << {
    sourceSets*.java.srcDirs*.each { 
-   it = new File(it, "module/${developerName }");
+   it = new File(it, 'module/'+developerName+'');
    it.mkdirs() }
    sourceSets*.resources.srcDirs*.each {
-   it = new File(it, "module/${developerName }");
+   it = new File(it, 'module/'+developerName+'');
    it.mkdirs() }
-   new File(project.projectDir, "src/main/webapp/module/${developerName }/resources").mkdirs()
-   new File(project.projectDir, "src/main/webapp/module/${developerName }/view").mkdirs()
+   new File(project.projectDir, 'src/main/webapp/module/'+developerName+'/resources').mkdirs()
+   new File(project.projectDir, 'src/main/webapp/module/'+developerName+'/view').mkdirs()
 }
 eclipseClasspath.dependsOn createProjectDirs
 
@@ -86,12 +86,12 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 // 编译完成后，自动拷入资源，并生成module.xml文件
 task copyResourcesFile << {
 	copy {
-	   from 'src/main/webapp/module/${developerName }/resources'
-	   into 'build/resources/main/webapp/module/${developerName }/resources'
+	   from 'src/main/webapp/module/'+developerName+'/resources'
+	   into 'build/resources/main/webapp/module/'+developerName+'/resources'
 	}
 	copy {
-	   from 'src/main/webapp/module/${developerName }/view'
-	   into 'build/resources/main/webapp/module/${developerName }/view'
+	   from 'src/main/webapp/module/'+developerName+'/view'
+	   into 'build/resources/main/webapp/module/'+developerName+'/view'
 	}
 }
 jar.dependsOn copyResourcesFile
@@ -100,24 +100,24 @@ task createSyXml << {
 	def writer = new StringWriter()
 	def xml = new groovy.xml.MarkupBuilder(writer)
 	xml.sy() {
-		dbinit(dbtype:"mysql") {
-			checkConnectionSql("select 1")
-			checkTableName("module_wxservice_msg_dump")
-			initSqlPath("module/${developerName }/mysql-init.sql")
+		dbinit(dbtype:'mysql') {
+			checkConnectionSql('select 1')
+			checkTableName('module_wxservice_msg_dump')
+			initSqlPath('module/'+developerName+'/mysql-init.sql')
 		}
-		dbinit(dbtype:"sqlserver") {
-			checkConnectionSql("select 1")
-			checkTableName("module_wxservice_msg_dump")
-			initSqlPath("module/${developerName }/sqlserver-init.sql")
+		dbinit(dbtype:'sqlserver') {
+			checkConnectionSql('select 1')
+			checkTableName('module_wxservice_msg_dump')
+			initSqlPath('module/'+developerName+'/sqlserver-init.sql')
 		}
 		resources() {
 			release() {
-				from("webapp/module/${developerName }/resources")
-				to("../../module/${developerName }/resources")
+				from('webapp/module/'+developerName+'/resources')
+				to('../../module/'+developerName+'/resources')
 			}
 			release() {
-				from("webapp/module/${developerName }/view")
-				to("../../module/${developerName }/view")
+				from('webapp/module/'+developerName+'/view')
+				to('../../module/'+developerName+'/view')
 			}
 		}
 	}
@@ -126,7 +126,6 @@ task createSyXml << {
 	configFile.write(writer.toString())
 }
 jar.dependsOn createSyXml
-
 
 
 
@@ -144,7 +143,7 @@ publishing {
 				// 修改依赖的scope
 				for (n in asNode()['dependencies'][0]) {
 					for (s in n['scope']) {
-						s.setValue("compile")
+						s.setValue('compile')
 					}
 				}
 				// 写入更多属性
@@ -165,7 +164,7 @@ publishing {
     }
     repositories {
         maven {
-            url "$rootDir/../repo"
+            url '$rootDir/../../repo'
         }
     }
 }

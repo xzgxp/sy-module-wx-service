@@ -34,6 +34,18 @@ CREATE TABLE module_wxservice_msg_dump (
 ); /* 微信交互日志表 */ 
 
 
+if (exists (SELECT * FROM dbo.sysobjects 
+	where id = object_id(N'module_wxservice_setting') and OBJECTPROPERTY(id, N'IsUserTable') = 1)) 
+DROP TABLE module_wxservice_setting;
+
+CREATE TABLE `module_wxservice_setting` (
+  setting_key varchar(200) NOT NULL , /* 字段名称 */
+  setting_val varchar(2000) DEFAULT NULL , /* 字段值 */
+  PRIMARY KEY (`setting_key`)
+); /* 参数配置表 */ 
+
+
+
 
 
 

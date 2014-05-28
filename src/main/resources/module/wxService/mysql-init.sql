@@ -29,3 +29,13 @@ CREATE TABLE `module_wxservice_msg_dump` (
   `analyse_video_thumb_mediaid` varchar(200) DEFAULT NULL COMMENT '视频，缩略图媒体id',
   PRIMARY KEY (`log_row_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='微信交互日志表';
+
+
+DROP TABLE IF EXISTS `module_wxservice_setting`;
+
+CREATE TABLE `module_wxservice_setting` (
+  `setting_key` varchar(200) NOT NULL COMMENT '字段名称',
+  `setting_val` varchar(2000) DEFAULT NULL COMMENT '字段值',
+  PRIMARY KEY (`setting_key`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='参数配置表';
+
