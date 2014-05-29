@@ -36,14 +36,14 @@
 				  <div class="form-group"  >
 				    <label class="sr-only" for="form_accuracy">精度（秒）</label>
 				    <select class="form-control" id="form_accuracy" >
-				    	<option value="10" unit="minutes" >10分钟</option>
-				    	<option value="30" unit="minutes" >30分钟</option>
-				    	<option value="1" unit="hours" >1小时</option>
-				    	<option value="6" unit="hours" >6小时</option>
-				    	<option value="12" unit="hours" >12小时</option>
-				    	<option value="1" unit="day" >1天</option>
-				    	<option value="3" unit="day" >3天</option>
-				    	<option value="7" unit="day" >7天</option>
+				    	<option value="10" unit="minute" >10分钟</option>
+				    	<option value="30" unit="minute" >30分钟</option>
+				    	<option value="1" unit="hour" >1小时</option>
+				    	<option value="6" unit="hour" >6小时</option>
+				    	<option value="12" unit="hour" >12小时</option>
+				    	<option value="1" unit="date" >1天</option>
+				    	<option value="3" unit="date" >3天</option>
+				    	<option value="7" unit="date" >7天</option>
 				    </select>
 				    <script type="text/javascript" >
 				    	$("#form_accuracy option").removeAttr("selected");

@@ -7,7 +7,16 @@
  */
 (function ($) {
 	var format = "YYYY-MM-DD HH:mm:ss";
-	var units = ["years", "months", "week", "days", "hours", "minutes", "seconds", "milliseconds"];
+	var units = ["year", "month", "date", "hour", "minute", "second", "millisecond"];
+	var units_map = {
+			year : 'years',
+			month : 'months',
+			date : 'days',
+			hour : 'hours',
+			minute : 'minutes',
+			second : 'seconds',
+			millisecond : 'milliseconds'
+	};
 	
 	Array.prototype.indexOf = function(e){
 		for(var i=0,j; j=this[i]; i++){
@@ -41,10 +50,10 @@
 			 */
 			generateTimePart : function(options) {
 				var defaultOptions = {
-						starttime : moment().subtract("day", 7).format(format),
+						starttime : moment().subtract("date", 7).format(format),
 						endtime : moment().format(format),
 						accuracy : 1, 
-						unit : "day",
+						unit : "date",
 						strict : false
 				};
 				options = $.extend({}, defaultOptions, options);
@@ -53,8 +62,7 @@
 				var date_endtime = moment(options.endtime, format);
 				// 非严格模式，时间取整
 				if (!options.strict && units.indexOf(options.unit) != -1) {
-					for (var i=units.indexOf(options.unit); i<units.length; i++) {
-						console.log(units[i])
+					for (var i=units.indexOf(options.unit)+1; i<units.length; i++) {
 						date_starttime.set(units[i], 0);
 						date_endtime.set(units[i], 0);
 					}
@@ -64,7 +72,7 @@
 				var array = [];
 				while (!date_curent.isAfter(date_endtime)) {
 					array.push(date_curent.format(format));
-					date_curent.add(options.unit, options.accuracy);
+					date_curent.add(units_map[options.unit], options.accuracy);
 				}
 				return array;
 			}

@@ -84,7 +84,8 @@ $(function() {
 									starttime : $("#form_starttime").val(), 
 									endtime : $("#form_endtime").val(), 
 									accuracy : Number($("#form_accuracy option:checked").val()), 
-									unit : $("#form_accuracy option:checked").attr("unit")
+									unit : $("#form_accuracy option:checked").attr("unit"),
+									strict : false
 							})
 					)
 			},

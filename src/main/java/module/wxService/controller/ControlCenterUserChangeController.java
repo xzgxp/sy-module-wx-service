@@ -66,7 +66,7 @@ public class ControlCenterUserChangeController {
 									+ "WHERE log_type = 'revc' "
 									+ "AND analyse_msg_msgtype = 'event' "
 									+ "AND analyse_event_type = ? "
-									+ "AND log_timestamp > ? "
+									+ "AND log_timestamp >= ? "
 									+ "AND log_timestamp < ?", 
 									"subscribe", 
 									new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(start), 
@@ -87,7 +87,7 @@ public class ControlCenterUserChangeController {
 									+ "WHERE log_type = 'revc' "
 									+ "AND analyse_msg_msgtype = 'event' "
 									+ "AND analyse_event_type = ? "
-									+ "AND log_timestamp > ? "
+									+ "AND log_timestamp >= ? "
 									+ "AND log_timestamp < ?", 
 									"unsubscribe", 
 									new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(start), 
@@ -151,7 +151,7 @@ public class ControlCenterUserChangeController {
 			cal.add(Calendar.DAY_OF_MONTH, -7);
 			starttime = cal.getTime();
 			accuracy = 1;
-			unit = "day";
+			unit = "date";
 			querytype = "subscribe";
 		}
 		request.setAttribute("starttime", starttime);
