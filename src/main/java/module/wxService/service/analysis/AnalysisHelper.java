@@ -28,6 +28,33 @@ public class AnalysisHelper {
 		this.addColumnsFormat("yyyy-MM-dd HH:mm:ss");
 	}
 	
+	public AnalysisHelper(List<Date> times) {
+		columns = times;
+		data = new HashMap<String, Object>();
+		data.put("columns", columns);
+		this.addColumnsFormat("yyyy-MM-dd HH:mm:ss");
+	}
+	
+	public Date getMinDate() {
+		Date min = null;
+		for (Date d : columns) {
+			if (min == null || min.getTime() > d.getTime()) {
+				min = d;
+			}
+		}
+		return min;
+	}
+	
+	public Date getMaxDate() {
+		Date max = null;
+		for (Date d : columns) {
+			if (max == null || max.getTime() < d.getTime()) {
+				max = d;
+			}
+		}
+		return max;
+	}
+	
 	public Map<String, Object> getResultMap() {
 		return data;
 	}

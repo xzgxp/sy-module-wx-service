@@ -21,6 +21,8 @@
 			
 				<form class="form-inline" role="form" id="search_form" >
 					<input type="hidden" name="querytype" value="${querytype }" />
+					<input type="hidden" name="accuracy" value="${accuracy?c }" />
+					<input type="hidden" name="unit" value="${unit }" />
 				  <div class="form-group">
 				    <label class="sr-only" for="form_starttime">开始时间</label>
 				    <input type="text" class="form-control" id="form_starttime" name="starttime" value="${starttime?string('yyyy-MM-dd HH:mm:ss') }"
@@ -33,20 +35,19 @@
 				  </div>
 				  <div class="form-group"  >
 				    <label class="sr-only" for="form_accuracy">精度（秒）</label>
-				    <select name="accuracy" class="form-control" id="form_accuracy" value="${accuracy?c }" >
-				    	<option value="600" >10分钟</option>
-				    	<option value="1800" >0.5小时</option>
-				    	<option value="3600" >1小时</option>
-				    	<option value="21600" >6小时</option>
-				    	<option value="43200" >12小时</option>
-				    	<option value="86400" >1天</option>
-				    	<option value="259200" >3天</option>
-				    	<option value="604800" >7天</option>
-				    	<option value="864000" >10天</option>
+				    <select class="form-control" id="form_accuracy" >
+				    	<option value="10" unit="minutes" >10分钟</option>
+				    	<option value="30" unit="minutes" >30分钟</option>
+				    	<option value="1" unit="hours" >1小时</option>
+				    	<option value="6" unit="hours" >6小时</option>
+				    	<option value="12" unit="hours" >12小时</option>
+				    	<option value="1" unit="day" >1天</option>
+				    	<option value="3" unit="day" >3天</option>
+				    	<option value="7" unit="day" >7天</option>
 				    </select>
 				    <script type="text/javascript" >
 				    	$("#form_accuracy option").removeAttr("selected");
-						$("#form_accuracy option[value='"+$("#form_accuracy").attr("value")+"']").attr("selected", "selected");
+						$("#form_accuracy option[value='"+$("input[type='hidden'][name='accuracy']").val()+"'][unit='"+$("input[type='hidden'][name='unit']").val()+"']").attr("selected", "selected");
 				    </script>
 				  </div>
 				  <button type="submit" class="btn btn-default btn_submit">刷新</button>
@@ -76,8 +77,9 @@
 		</div>
 	</div>
     
-	<script src="../resources/userchange.js" ></script>
     
+	<script src="../resources/analysisService.js" ></script>
+	<script src="../resources/userchange.js" ></script>
     
     
 <#include "module/footer.ftl" > 
