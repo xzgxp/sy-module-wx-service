@@ -7,6 +7,7 @@
 
 	<style>
 		#table_list {margin-top: 50px;}
+		.btn_submit {margin-left: 20px;}
 	</style>
 
 	<div class="panel panel-default">
@@ -32,9 +33,23 @@
 				  </div>
 				  <div class="form-group"  >
 				    <label class="sr-only" for="form_accuracy">精度（秒）</label>
-				    <input type="text" class="form-control"  id="form_accuracy" name="accuracy"  value="${accuracy?c }" >
+				    <select name="accuracy" class="form-control" id="form_accuracy" value="${accuracy?c }" >
+				    	<option value="600" >10分钟</option>
+				    	<option value="1800" >0.5小时</option>
+				    	<option value="3600" >1小时</option>
+				    	<option value="21600" >6小时</option>
+				    	<option value="43200" >12小时</option>
+				    	<option value="86400" >1天</option>
+				    	<option value="259200" >3天</option>
+				    	<option value="604800" >7天</option>
+				    	<option value="864000" >10天</option>
+				    </select>
+				    <script type="text/javascript" >
+				    	$("#form_accuracy option").removeAttr("selected");
+						$("#form_accuracy option[value='"+$("#form_accuracy").attr("value")+"']").attr("selected", "selected");
+				    </script>
 				  </div>
-				  <button type="submit" class="btn btn-default">刷新</button>
+				  <button type="submit" class="btn btn-default btn_submit">刷新</button>
 				</form>
 				
 			</div>	<!-- 统计头信息 -->

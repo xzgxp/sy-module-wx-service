@@ -7,5 +7,6 @@
     <@res resid="highcharts" />
     <@res resid="my97DatePicker" />
     
+    
   </body>
 </html>

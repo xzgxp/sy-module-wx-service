@@ -75,7 +75,7 @@ $(function() {
 			data : {
 				starttime : $("#form_starttime").val(),
 				endtime : $("#form_endtime").val(),
-				accuracy : $("#form_accuracy").val(),
+				accuracy : $("#form_accuracy option:checked").val()
 			},
 			dataType : 'json',
 			cache : false,
