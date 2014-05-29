@@ -15,6 +15,9 @@ import org.apache.commons.logging.LogFactory;
 
 import sy.module.core.config.PropertiesLoader;
 import sy.module.core.dao.Dao;
+import sy.module.core.mvc.EventAction;
+import sy.module.core.mvc.EventKey;
+import sy.module.core.mvc.ModuleCoreFilter;
 import module.wxService.event.WxAcceptEventAdapter;
 import module.wxService.service.AcceptNode;
 import module.wxService.vo.recv.WxRecvEventMsg;
@@ -62,6 +65,30 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 	private static List<Object> argesBuffer = new ArrayList<Object>();
 	private static int sqlsize = 0;
 	
+	static {
+		// 关闭的时候，自动提交
+		ModuleCoreFilter.addEventListener(EventKey.shutdown, new EventAction() {
+			@Override
+			public Object action(Object... objects) {
+				log.info("catalina shutdown, commit sql buffer.");
+				flushSqlBuffer();
+				log.info("catalina sql buffer success.");
+				return null;
+			}});
+	}
+	
+	public static void flushSqlBuffer() {
+		try {
+			new Dao().update(sqlBuffer.toString(), argesBuffer.toArray());
+			log.debug("weixin message dump submit to database success.");
+			sqlsize = 0;
+			sqlBuffer = new StringBuffer();
+			argesBuffer.clear();
+		} catch (SQLException e) {
+			log.warn("weixin message dump submit to database faild.");
+		}
+	}
+	
 	/**
 	 * 追加SQL，延迟执行
 	 * @param sql
@@ -75,15 +102,7 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 		argesBuffer.addAll(Arrays.asList(arges));
 		if (sqlsize >= PropertiesLoader.getInstance().getConfig(
 				"module.wxService.msgDump.buffersize", 10)) {
-			try {
-				new Dao().update(sqlBuffer.toString(), argesBuffer.toArray());
-				log.debug("weixin message dump submit to database success.");
-				sqlsize = 0;
-				sqlBuffer = new StringBuffer();
-				argesBuffer.clear();
-			} catch (SQLException e) {
-				log.warn("weixin message dump submit to database faild.");
-			}
+			flushSqlBuffer();
 		}
 	}
 	
