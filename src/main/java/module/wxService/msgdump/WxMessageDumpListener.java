@@ -102,7 +102,11 @@ public class WxMessageDumpListener extends WxAcceptEventAdapter {
 		argesBuffer.addAll(Arrays.asList(arges));
 		if (sqlsize >= PropertiesLoader.getInstance().getConfig(
 				"module.wxService.msgDump.buffersize", 10)) {
-			flushSqlBuffer();
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					flushSqlBuffer();
+				}}).start();
 		}
 	}
 	
