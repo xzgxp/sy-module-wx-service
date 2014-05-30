@@ -43,11 +43,6 @@ $(function() {
 			}
 	};
 	
-	$("#search_form").submit(function(e){
-		$("input[type='hidden'][name='accuracy']").val($("#form_accuracy option:checked").val());
-		$("input[type='hidden'][name='unit']").val($("#form_accuracy option:checked").attr("unit"));
-	});
-	
 	/**
 	 * 初始化查询类型的导航Bar
 	 */
@@ -81,10 +76,10 @@ $(function() {
 			data : {
 				times : $.toJSON(
 							$.analysisService.generateTimePart({
-									starttime : $("#form_starttime").val(), 
-									endtime : $("#form_endtime").val(), 
-									accuracy : Number($("#form_accuracy option:checked").val()), 
-									unit : $("#form_accuracy option:checked").attr("unit"),
+									starttime : $("#search_form_form_starttime").val(), 
+									endtime : $("#search_form_form_endtime").val(), 
+									accuracy : Number($("#search_form_form_accuracy option:checked").val()), 
+									unit : $("#search_form_form_accuracy option:checked").attr("unit"),
 									strict : false
 							})
 					)
