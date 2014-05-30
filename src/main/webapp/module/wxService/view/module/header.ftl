@@ -7,6 +7,7 @@
     
     <@res resid="bootstrap" include=".*\\.css" />
     <@res resid="jquery" />
+    <@res resid="my97DatePicker" />
     
     
   </head>
