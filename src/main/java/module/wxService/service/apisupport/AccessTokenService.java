@@ -26,12 +26,53 @@ public class AccessTokenService {
 	 * 获取Token缓存
 	 * @return cache data
 	 */
-	public Map<String, TokenCache> getTokenCache() {
+	public static Map<String, TokenCache> getTokenCache() {
 		return cache;
 	}
 	
 	/**
-	 * 请求访问令牌
+	 * 设置token过期
+	 * @param appid
+	 */
+	public static void setTimeout(String appid) {
+		cache.remove(appid);
+	}
+	
+	/**
+	 * 验证访问令牌
+	 * @param appid
+	 * @param token
+	 * @return
+	 */
+	public synchronized static boolean verificationAccessToken(String appid, String token) {
+		HttpClient httpClient = new HttpClient();
+		GetMethod get = new GetMethod("https://api.weixin.qq.com/cgi-bin/menu/get?access_token=" + token);
+		try {
+			httpClient.executeMethod(get);
+			if (get.getStatusCode() == 200) {
+				String body = get.getResponseBodyAsString();
+				Matcher matcher = Pattern.compile("\\\"errorcode\\\":\\\"([^\\\"]*)\\\"").matcher(body);
+				String errorcode = matcher.find() ? matcher.group(1) : null;
+				//
+				if (errorcode == null) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				log.warn("error state code : " + get.getStatusCode());
+				return false;
+			}
+		} catch (Exception e) {
+			log.warn("verification microMsg access token error.", e);
+			return false;
+		} finally {
+			get.releaseConnection();
+		}
+	}
+	
+	/**
+	 * 请求有效的访问令牌
 	 * @param appid
 	 * @param secret
 	 * @return token
@@ -42,7 +83,8 @@ public class AccessTokenService {
 		if (tc != null 
 				&& tc.getAppid().equals(appid) 
 				&& tc.getSecret().equals(secret) 
-				&& tc.isExpires()) {
+				&& tc.isExpires()
+				&& verificationAccessToken(appid, tc.access_token)) {
 			return tc.access_token;
 		}
 		log.info("reload access token");
