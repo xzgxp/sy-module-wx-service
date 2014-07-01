@@ -42,7 +42,7 @@ public class AccessTokenService {
 	 * 验证访问令牌
 	 * @param appid
 	 * @param token
-	 * @return
+	 * @return 是否有效
 	 */
 	public synchronized static boolean verificationAccessToken(String appid, String token) {
 		HttpClient httpClient = new HttpClient();

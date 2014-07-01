@@ -37,8 +37,7 @@ public class ControlCenterUserChangeController {
 	 * 数据加载
 	 * @param request
 	 * @param response
-	 * @param starttime
-	 * @param endtime
+	 * @param times
 	 * @return view
 	 * @throws SQLException 
 	 */

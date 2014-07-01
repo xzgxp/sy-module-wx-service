@@ -28,7 +28,7 @@ CREATE TABLE `module_wxservice_msg_dump` (
   `analyse_video_mediaid` varchar(200) DEFAULT NULL COMMENT '视频，媒体id',
   `analyse_video_thumb_mediaid` varchar(200) DEFAULT NULL COMMENT '视频，缩略图媒体id',
   PRIMARY KEY (`log_row_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='微信交互日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='微信交互日志表';
 
 
 DROP TABLE IF EXISTS `module_wxservice_setting`;
