@@ -14,12 +14,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import module.controlCenter.ControlCenterMenu;
 import module.wxService.service.analysis.AnalysisAction;
 import module.wxService.service.analysis.AnalysisHelper;
 import sy.module.core.dao.Dao;
 import sy.module.core.mvc.annotation.ModuleAction;
 import sy.module.core.mvc.annotation.ModuleActionParmar;
 import sy.module.core.mvc.annotation.ModuleController;
+import sy.module.core.mvc.annotation.ModuleFollowContainerInit;
 
 import java.text.SimpleDateFormat;
 
@@ -30,8 +32,16 @@ import java.text.SimpleDateFormat;
  *
  */
 @ModuleController(namespace="module/wxService/controlCenter")
+@ModuleFollowContainerInit
 public class ControlCenterUserChangeController {
 	private static final Log log = LogFactory.getLog(ControlCenterUserChangeController.class);
+	
+	static {
+		new ControlCenterMenu("微信服务框架", "")
+			.appendSubMenu(new ControlCenterMenu("用户变化", "wxService/controlCenter/userchange.do"))
+			.appendSubMenu(new ControlCenterMenu("设置", "wxService/controlCenter/setting.do"))
+			.appenToRoot();
+	}
 	
 	/**
 	 * 数据加载

@@ -1,9 +1,4 @@
 
-<#include "module/header.ftl" > 
-
-<#assign menu_active = "userchange" >  
-<#include "module/menu.ftl" >
-
 
 	<style>
 		#table_list {margin-top: 50px;}
@@ -45,10 +40,11 @@
     
     
     <@res resid="module-analysisService" />
-	<script src="../resources/userchange.js" ></script>
+    <@res resid="highcharts" />
+    <@res resid="momentjs" />
+    <@res resid="jquery-json" />
+	<script src="wxService/resources/userchange.js" ></script>
     
-    
-<#include "module/footer.ftl" > 
 
 
 

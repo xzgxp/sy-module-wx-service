@@ -1,9 +1,4 @@
 
-<#include "module/header.ftl" > 
-
-<#assign menu_active = "setting" >  
-<#include "module/menu.ftl" >
-
 
 	<style>
 		.form_info {
@@ -62,6 +57,3 @@
 		</div>
 	</div>
     
-    
-    
-<#include "module/footer.ftl" > 

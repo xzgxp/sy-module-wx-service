@@ -34,6 +34,7 @@ repositories {
 dependencies {
 	
     compile 'sy-module:module-core:2.0a1'
+    compile 'sy-module:module-control-center:1.0'
     compile 'commons-httpclient:commons-httpclient:3.1'
 	
 	compile 'dom4j:dom4j:1.6.1'
@@ -43,6 +44,7 @@ dependencies {
 	 
 	testCompile 'junit:junit:4.2'
 	testCompile 'mysql:mysql-connector-java:5.1.24'
+	testCompile 'commons-dbcp:commons-dbcp:1.4'
 	
 }
 

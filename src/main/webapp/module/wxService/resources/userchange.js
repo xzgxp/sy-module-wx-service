@@ -71,7 +71,7 @@ $(function() {
 	 */
 	var loaddata = function(callback) {
 		$.ajax({
-			url : 'userchangedata.do',
+			url : 'wxService/controlCenter/userchangedata.do',
 			type : 'post',
 			data : {
 				times : $.toJSON(

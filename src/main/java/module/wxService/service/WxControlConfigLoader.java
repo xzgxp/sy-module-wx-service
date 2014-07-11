@@ -259,7 +259,7 @@ public class WxControlConfigLoader {
 		} catch (Exception e) {
 			log.error(e);
 		}
-		return null;
+		return loadDefaultAccept();
 	}
 
 
