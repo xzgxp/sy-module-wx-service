@@ -46,18 +46,23 @@ public class AccessTokenService {
 	 */
 	public synchronized static boolean verificationAccessToken(String appid, String token) {
 		HttpClient httpClient = new HttpClient();
-		GetMethod get = new GetMethod("https://api.weixin.qq.com/cgi-bin/menu/get?access_token=" + token);
+		GetMethod get = new GetMethod("https://api.weixin.qq.com/cgi-bin/user/info?access_token="+token
+				+"&openid=aaaaa&lang=zh_CN");	// 微信会优先检查令牌，然后检查openid
 		try {
 			httpClient.executeMethod(get);
 			if (get.getStatusCode() == 200) {
 				String body = get.getResponseBodyAsString();
-				Matcher matcher = Pattern.compile("\\\"errorcode\\\":\\\"([^\\\"]*)\\\"").matcher(body);
+				log.debug("访问令牌检查结果：" + body);
+				Matcher matcher = Pattern.compile("\"errcode\":([^,]*),").matcher(body);
 				String errorcode = matcher.find() ? matcher.group(1) : null;
 				//
-				if (errorcode == null) {
-					return true;
-				} else {
+				if ("40001".equals(errorcode) 
+						|| "40014".equals(errorcode)
+						|| "41001".equals(errorcode)
+						|| "42001".equals(errorcode)) {
 					return false;
+				} else {
+					return true;
 				}
 			} else {
 				log.warn("error state code : " + get.getStatusCode());

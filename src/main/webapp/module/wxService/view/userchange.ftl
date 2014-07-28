@@ -38,11 +38,7 @@
 		</div>
 	</div>
     
-    
     <@res resid="module-analysisService" />
-    <@res resid="highcharts" />
-    <@res resid="momentjs" />
-    <@res resid="jquery-json" />
 	<script src="wxService/resources/userchange.js" ></script>
     
 

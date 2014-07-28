@@ -14,7 +14,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import module.controlCenter.ControlCenterMenu;
 import module.wxService.service.analysis.AnalysisAction;
 import module.wxService.service.analysis.AnalysisHelper;
 import sy.module.core.dao.Dao;
@@ -35,13 +34,6 @@ import java.text.SimpleDateFormat;
 @ModuleFollowContainerInit
 public class ControlCenterUserChangeController {
 	private static final Log log = LogFactory.getLog(ControlCenterUserChangeController.class);
-	
-	static {
-		new ControlCenterMenu("微信服务框架", "")
-			.appendSubMenu(new ControlCenterMenu("用户变化", "wxService/controlCenter/userchange.do"))
-			.appendSubMenu(new ControlCenterMenu("设置", "wxService/controlCenter/setting.do"))
-			.appenToRoot();
-	}
 	
 	/**
 	 * 数据加载

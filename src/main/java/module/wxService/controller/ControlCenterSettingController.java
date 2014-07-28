@@ -14,6 +14,24 @@ import sy.module.core.mvc.annotation.ModuleController;
 public class ControlCenterSettingController {
 
 	/**
+	 * 执行设置
+	 * @param accumulative_amendments
+	 * @return 状态
+	 * @throws SQLException
+	 */
+	@ModuleAction(url="dosetting")
+	public String dosetting(
+			@ModuleActionParmar(name = "accumulative_amendments") Integer accumulative_amendments
+			) throws SQLException {
+		if (accumulative_amendments != null) {
+			new Dao().update("delete from module_wxservice_setting where setting_key = ?; "
+					+ "insert into module_wxservice_setting (setting_key, setting_val) values (?,?)", 
+					"accumulative_amendments", "accumulative_amendments", accumulative_amendments);
+		}
+		return "success";
+	}
+
+	/**
 	 * 加载设置
 	 * @param request
 	 * @param response
@@ -22,17 +40,9 @@ public class ControlCenterSettingController {
 	 */
 	@ModuleAction(url="setting")
 	public String setting(
-			HttpServletRequest request, HttpServletResponse response, 
-			@ModuleActionParmar(name = "accumulative_amendments") Integer accumulative_amendments) throws SQLException {
+			HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		// 提交
-		if (accumulative_amendments != null) {
-			new Dao().update("delete from module_wxservice_setting where setting_key = ?; "
-					+ "insert into module_wxservice_setting (setting_key, setting_val) values (?,?)", 
-					"accumulative_amendments", "accumulative_amendments", accumulative_amendments);
-			request.setAttribute("form_submit", "success");
-		} else {
-			accumulative_amendments = 0;
-		}
+		int accumulative_amendments = 0;
 		try {
 			accumulative_amendments = Integer.parseInt(new Dao().queryForString(
 					"select setting_val from module_wxservice_setting where setting_key = ?", "accumulative_amendments"));

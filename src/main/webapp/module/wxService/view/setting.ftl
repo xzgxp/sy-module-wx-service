@@ -23,10 +23,15 @@
 						$("#setting_form button[type='submit']").attr("disabled", true);
 					}
 				}
-				
-				
 			};
 			$("#setting_form input").unbind().bind("change", input_callback).bind("input", input_callback);
+			// form
+			$('#setting_form').ajaxForm({
+	            dataType: "json",
+	            callback: function (data) {
+	                console.log(data);
+	            }
+	        });
 		});
 	</script>
 
