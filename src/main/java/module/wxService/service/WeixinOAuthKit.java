@@ -1,5 +1,7 @@
 package module.wxService.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +30,7 @@ public class WeixinOAuthKit {
 	 * @return Map
 	 */
 	@SuppressWarnings("unchecked")
-	private Map<String, Object> getAccessToken(String code) {
+	public static Map<String, Object> getAccessToken(String code) {
 		//
 		try {
 			String appid = PropertiesLoader.getInstance().getConfig("module.wxService.appid");
@@ -55,11 +57,21 @@ public class WeixinOAuthKit {
 	
 	
 	/**
-	 * 拉取用户信息
-	 * @param accessToken
-	 * @return Map
+	 * 通过Code，拉取Openid
+	 * @param code
+	 * @return openid
 	 */
-	private Map<String, Object> pullUserInfo(Map<String, Object> token) {
+	public static String pullOpenId(String code) {
+		return (String) getAccessToken(code).get("openid");
+	}
+	
+	
+	/**
+	 * 拉取用户信息
+	 * @param token
+	 * @return Map 
+	 */
+	public static Map<String, Object> pullUserInfo(Map<String, Object> token) {
 		String url = "https://api.weixin.qq.com/sns/userinfo?access_token="+token.get("access_token")+
 				"&openid="+token.get("openid")+
 				"&lang=zh_CN";
@@ -69,6 +81,7 @@ public class WeixinOAuthKit {
 		try {
 			http.executeMethod(get);
 			String res = new String(get.getResponseBody(), "UTF-8");
+			log.debug("pull user info， body : ["+res+"]");
 			// 解析
 			@SuppressWarnings("unchecked")
 			Map<String, Object> info = new ObjectMapper().readValue(res, Map.class);
@@ -92,7 +105,7 @@ public class WeixinOAuthKit {
 	 * @return 跳转地址
 	 */
 	@ModuleAction(url="weixinAdvancedOAuth")
-	public String weixinAdvancedOAuth(HttpServletRequest request, HttpServletResponse response) {
+	public static String weixinAdvancedOAuth(HttpServletRequest request, HttpServletResponse response) {
 		String code = request.getParameter("code");
 		String state = request.getParameter("state");
 		if (code == null || code.equals("")) {
@@ -116,6 +129,39 @@ public class WeixinOAuthKit {
 		}
 		return "redirect:" + ModuleCoreFilter.getRequestContext().basePath + relativelyUrl;
 	}
+	
+	/**
+	 * 获得基础鉴权URL地址
+	 * @param relativelyUrl
+	 * @param state
+	 * @return URL地址
+	 * @throws UnsupportedEncodingException
+	 */
+	public static String loadWeixinBaseOAuthUrl(
+			String relativelyUrl, String state
+			) throws UnsupportedEncodingException {
+		return loadWeixinOAuthUrl(relativelyUrl, state, "snsapi_base");
+	}
+	
+	/**
+	 * 获得鉴权URL地址
+	 * @param relativelyUrl
+	 * @param state
+	 * @param scope snsapi_base 或 snsapi_userinfo
+	 * @return URL地址
+	 * @throws UnsupportedEncodingException 
+	 */
+	public static String loadWeixinOAuthUrl(
+			String relativelyUrl, String state, String scope
+			) throws UnsupportedEncodingException {
+		String appid = PropertiesLoader.getInstance().getConfig("module.wxService.appid");
+		String secret = PropertiesLoader.getInstance().getConfig("module.wxService.secret");
+		//
+		return "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="
+						+URLEncoder.encode(ModuleCoreFilter.getRequestContext().basePath+relativelyUrl, "UTF-8")
+						+"&response_type=code&scope="+scope+"&state="+secret+"#wechat_redirect";
+	}
+	
 	
 	/**
 	 * 获得鉴权URL地址
