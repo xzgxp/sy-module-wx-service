@@ -7,7 +7,7 @@ sourceCompatibility = '1.6'
 targetCompatibility = '1.6'
 groupId = 'sy-module'
 artifactId = 'module-wx-service'
-version = '1.2b4'
+version = '1.2b5'
 developerName = 'wxService'
 
 
@@ -33,14 +33,13 @@ repositories {
 // 依赖
 dependencies {
 	
-    compile 'sy-module:module-core:2.0a1'
+    compile 'sy-module:module-core:2.0a2'
 	
     compile 'commons-httpclient:commons-httpclient:3.1'
 	
 	compile 'dom4j:dom4j:1.6.1'
 	compile 'jaxen:jaxen:1.1.6'
 	compile 'jdom:jdom:1.1'
-	compile 'org.springframework:spring-beans:3.2.0.RELEASE'
 	 
 	testCompile 'junit:junit:4.2'
 	testCompile 'mysql:mysql-connector-java:5.1.24'
