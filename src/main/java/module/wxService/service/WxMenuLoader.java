@@ -34,16 +34,16 @@ public class WxMenuLoader {
 	 * @param appid
 	 * @param secret
 	 */
-	public void submitWxMenu(String appid, String secret) throws Exception {
+	public void submitWxMenu(String appid, String secret, Map<String, Object> context) throws Exception {
 		String accessToken = AccessTokenService.requestWxAccessToken(appid, secret);
-		MenuService.submit(accessToken, loadMenuContent());
+		MenuService.submit(accessToken, loadMenuContent(context));
 	}
 	
 	/**
 	 * 加载菜单内容
 	 * @return json
 	 */
-	public String loadMenuContent() {
+	public String loadMenuContent(Map<String, Object> context) {
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new InputStreamReader(
@@ -54,9 +54,7 @@ public class WxMenuLoader {
 				buf.append(line);
 				buf.append("\n");
 			}
-			Map<String, Object> data = new HashMap<String, Object>();
-			data.put("url_basepath", ModuleCoreFilter.getRequestContext().getBasePath());
-			return new StringTemplateKit().mergerString(buf.toString(), data);
+			return new StringTemplateKit().mergerString(buf.toString(), context);
 		} catch (Exception e) {
 			log.warn("load menu content error.", e);
 			return null;

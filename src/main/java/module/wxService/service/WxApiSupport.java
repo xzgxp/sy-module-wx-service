@@ -3,6 +3,8 @@ package module.wxService.service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import sy.module.core.mvc.ModuleCoreFilter;
 import module.wxService.WeiXin;
 import module.wxService.event.WxAcceptEvent;
 import module.wxService.event.WxAcceptEventManager;
@@ -107,12 +110,15 @@ public class WxApiSupport {
 				// 三秒钟后，自动提交菜单
 				if (wxMenuLoader != null) {
 					log.info("系统已经配置了自定义菜单，3秒钟后自动提交自定义菜单。");
+					// 准备上下文数据
+					final Map<String, Object> context = new HashMap<String, Object>();
+					context.put("url_basepath", ModuleCoreFilter.getRequestContext().basePath);
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
 							try {
 								Thread.sleep(3000);
-								wxMenuLoader.submitWxMenu(wx_appid, wx_secret);
+								wxMenuLoader.submitWxMenu(wx_appid, wx_secret, context);
 								log.warn("微信自定义菜单提交成功。");
 							} catch (Exception e) {
 								log.warn("微信自定义菜单提交失败。", e);
