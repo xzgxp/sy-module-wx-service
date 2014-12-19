@@ -2,12 +2,17 @@ package module.wxService.service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import module.wxService.service.apisupport.AccessTokenService;
 import module.wxService.service.apisupport.MenuService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import sy.module.core.mvc.ModuleCoreFilter;
+import sy.module.core.util.string.StringTemplateKit;
 
 /**
  * 自定义菜单加载器
@@ -49,7 +54,9 @@ public class WxMenuLoader {
 				buf.append(line);
 				buf.append("\n");
 			}
-			return buf.toString();
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put("url_basepath", ModuleCoreFilter.getRequestContext().getBasePath());
+			return new StringTemplateKit().mergerString(buf.toString(), data);
 		} catch (Exception e) {
 			log.warn("load menu content error.", e);
 			return null;
