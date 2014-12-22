@@ -1,7 +1,11 @@
 package module.wxService.service;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,8 +50,9 @@ public class WxMenuLoader {
 	public String loadMenuContent(Map<String, Object> context) {
 		BufferedReader br = null;
 		try {
-			br = new BufferedReader(new InputStreamReader(
-					WxMenuLoader.class.getClassLoader().getResourceAsStream(jsonFilePath), "UTF-8"));
+			URL url = WxMenuLoader.class.getClassLoader().getResource(jsonFilePath);
+			File jsonfile = new File(URLDecoder.decode(url.getFile(), "UTF-8"));
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(jsonfile), "UTF-8"));
 			StringBuffer buf = new StringBuffer();
 			String line = null;
 			while ((line = br.readLine()) != null) {
