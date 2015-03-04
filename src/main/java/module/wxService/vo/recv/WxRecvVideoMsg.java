@@ -7,6 +7,10 @@ package module.wxService.vo.recv;
  */
 public class WxRecvVideoMsg extends WxRecvMsg {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6303570951304927271L;
 	private String mediaId;
 	private String format;
 	private String thumbMediaId;

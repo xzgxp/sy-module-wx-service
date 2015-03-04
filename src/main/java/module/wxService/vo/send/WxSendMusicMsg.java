@@ -4,6 +4,12 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 
 public class WxSendMusicMsg extends WxSendMsg {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3066466036313739453L;
+	
+	
 	private String musicUrl;
 	private String hqMusicUrl;
 	private String description;

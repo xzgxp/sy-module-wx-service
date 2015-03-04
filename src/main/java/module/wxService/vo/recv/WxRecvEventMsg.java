@@ -2,6 +2,10 @@ package module.wxService.vo.recv;
 
 public class WxRecvEventMsg extends WxRecvMsg {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6895219907082527871L;
 	private String event;
 	private String eventKey;
 	private String latitude;

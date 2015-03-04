@@ -2,6 +2,10 @@ package module.wxService.vo.recv;
 
 
 public class WxRecvGeoMsg extends WxRecvMsg {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5006725472271461569L;
 	// Location_x
 	private double latitude;
 	// Location_y

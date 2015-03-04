@@ -2,6 +2,10 @@ package module.wxService.vo.recv;
 
 
 public class WxRecvLinkMsg extends WxRecvMsg {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2965696923702551282L;
 	private String title;
 	private String description;
 	private String url;

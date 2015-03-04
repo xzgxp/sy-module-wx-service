@@ -7,6 +7,10 @@ package module.wxService.vo.recv;
  */
 public class WxRecvVoiceMsg extends WxRecvMsg {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4823303193006072004L;
 	private String mediaId;
 	private String format;
 	private String recognition;

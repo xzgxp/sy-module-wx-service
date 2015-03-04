@@ -7,6 +7,10 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 
 public class WxSendNewsMsg extends WxSendMsg {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8172749354974129863L;
 	private List<WxSendNewsMsgItem> items = new LinkedList<WxSendNewsMsgItem>();
 
 	public WxSendNewsMsg(WxSendMsg msg) {

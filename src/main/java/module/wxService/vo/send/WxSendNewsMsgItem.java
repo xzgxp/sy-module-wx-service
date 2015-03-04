@@ -1,7 +1,13 @@
 package module.wxService.vo.send;
 
+import java.io.Serializable;
 
-public class WxSendNewsMsgItem {
+
+public class WxSendNewsMsgItem implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6727971658240681026L;
 	private String title;
 	private String description;
 	private String picUrl;

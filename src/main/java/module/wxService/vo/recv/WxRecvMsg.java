@@ -3,6 +3,10 @@ package module.wxService.vo.recv;
 import module.wxService.vo.WxMsg;
 
 public class WxRecvMsg extends WxMsg {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6587291226251609011L;
 	private String msgId;
 	
 	public WxRecvMsg(String toUser,String fromUser,String createDt,String msgType,String msgId) {

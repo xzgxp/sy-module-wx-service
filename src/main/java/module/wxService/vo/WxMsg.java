@@ -1,7 +1,14 @@
 package module.wxService.vo;
 
+import java.io.Serializable;
 
-public class WxMsg {
+
+public class WxMsg implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6790721998808700188L;
+	
 	private String toUser;
 	private String fromUser;
 	private String createDt;

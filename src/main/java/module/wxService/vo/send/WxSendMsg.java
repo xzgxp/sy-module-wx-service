@@ -7,6 +7,11 @@ import org.dom4j.Element;
 import module.wxService.vo.WxMsg;
 
 public class WxSendMsg extends WxMsg {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2626659798517298862L;
+	
 	// FuncFlag 位0x0001被标志时，星标刚收到的消息。
 	private boolean star;
 	

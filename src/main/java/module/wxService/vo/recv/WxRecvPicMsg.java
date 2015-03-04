@@ -2,6 +2,10 @@ package module.wxService.vo.recv;
 
 
 public class WxRecvPicMsg extends WxRecvMsg {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1617579916354257186L;
 	private String picUrl;
 	private String mediaId;
 
