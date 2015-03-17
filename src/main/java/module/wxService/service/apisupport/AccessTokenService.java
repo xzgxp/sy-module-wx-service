@@ -11,6 +11,9 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import sy.module.core.config.PropertiesLoader;
+import sy.module.core.util.string.StringLoadUtil;
+
 /**
  * 访问令牌支持
  * 
@@ -83,6 +86,28 @@ public class AccessTokenService {
 	 * @return token
 	 */
 	public synchronized static String requestWxAccessToken(String appid, String secret) {
+		if (PropertiesLoader.getInstance().getConfig("module.wxService.proxyService.AccessToken.enable", false)	) {
+			String url = PropertiesLoader.getInstance().getConfig("module.wxService.proxyService.AccessToken.url", null);
+			String regex = PropertiesLoader.getInstance().getConfig("module.wxService.proxyService.AccessToken.regex", null);
+			if (url != null && regex != null) {
+				try {
+					String content = StringLoadUtil.loadAsStringUrl(url);
+					Matcher matcher = Pattern.compile(regex).matcher(content);
+					if (!matcher.find()) {
+						log.warn("matcher error, content = " + content);
+						return null;
+					}
+					if (matcher.groupCount() < 1) {
+						log.warn("matcher error, group count = " + matcher.groupCount() + ", content = " + content);
+						return null;
+					}
+					return matcher.group(1);
+				} catch (Exception e) {
+					log.warn("通过第三方服务获取accessToken失败", e);
+					return null;
+				}
+			}
+		}
 		// 检查cache
 		TokenCache tc = cache.get(appid);
 		if (tc != null 
