@@ -18,6 +18,7 @@ import module.wxService.vo.recv.WxRecvMsg;
 import module.wxService.vo.send.WxSendMsg;
 import module.wxService.vo.send.WxSendMusicMsg;
 import module.wxService.vo.send.WxSendNewsMsg;
+import module.wxService.vo.send.WxSendPicMsg;
 import module.wxService.vo.send.WxSendTextMsg;
 
 /**
@@ -66,6 +67,8 @@ public class XmlConfigMsgAccept implements WxMsgAccept {
 			switch (msgtype) {
 			case text :
 				return new WxSendTextMsg(sendMsg, stringTemplateKit.mergerString(answer.getText(), data));
+			case pic :
+				return new WxSendPicMsg(sendMsg, stringTemplateKit.mergerString(answer.getText(), data));
 			case music :
 				return new WxSendMusicMsg(
 						sendMsg, 

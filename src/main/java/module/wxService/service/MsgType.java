@@ -9,6 +9,7 @@ package module.wxService.service;
 public enum MsgType {
 	
 	text,
+	pic,
 	music,
 	news;
 
